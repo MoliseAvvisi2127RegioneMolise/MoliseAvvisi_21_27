@@ -169,6 +169,8 @@ const DB={applications:[
 ═══════════════════════════════════════════════════════════════════*/
 let CU=null;const $$=id=>document.getElementById(id),P=()=>$$('page');
 const fE=v=>'€'+Math.round(v).toLocaleString('it'),fD=d=>d?new Date(d).toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'}):'—';
+function openBlob(blob){const u=URL.createObjectURL(blob);window.open(u,'_blank')}
+function openPagPDF(dId,pId){generaPagamentoPDF(dId,pId).then(r=>{if(r&&r.blob)openBlob(r.blob)})}
 function nfy(m,t='ok'){const e=$$('notifyEl');e.textContent=m;e.className='notify '+t;setTimeout(()=>e.classList.add('hidden'),4500)}
 function closeModal(){$$('modalBox').innerHTML=''}
 function rupN(cf){return PU.find(x=>x.cf===cf)?.nome||cf||'—'}
@@ -472,7 +474,7 @@ async function creaVerbalePDF(domId,tipo,extraData){
   }
 
   // Apri in nuova tab
-  const blob=pdf.output('blob');const url=URL.createObjectURL(blob);window.open(url,'_blank');
+  const blob=pdf.output('blob');openBlob(blob);
 
   // Salva su Google Drive
   if(gdriveToken){
@@ -611,7 +613,7 @@ function pgBD(){const a=DB.applications;
     if(d.accettazione?.firmata)docs+=`<div style="font-size:11px;color:var(--success);margin-top:4px">✓ Accettazione: ${d.accettazione.doc}</div>`;
     if(d.cup)docs+=`<div style="font-size:12px;margin-top:4px"><strong>CUP:</strong> <span style="font-family:var(--mono)">${d.cup}</span></div>`;
     if(d.pagamenti?.length){docs+=`<div style="margin-top:6px"><strong style="font-size:12px;color:var(--text-sec)">💰 Pagamenti</strong>`;
-      d.pagamenti.forEach(p=>{docs+=`<div style="font-size:11px;padding:2px 0;display:flex;gap:4px;align-items:center"><span style="font-family:var(--mono)">${p.tipo} ${fE(p.importo)}</span><span class="badge b-${p.stato}" style="font-size:9px">${p.stato}</span>${p.det_n?' Det.'+p.det_n:''} <button class="btn btn-ghost" style="padding:1px 4px;font-size:9px" onclick="generaPagamentoPDF('${d.id}','${p.id}').then(r=>{if(r?.blob)window.open(URL.createObjectURL(r.blob))})">📄</button></div>`});
+      d.pagamenti.forEach(p=>{docs+=`<div style="font-size:11px;padding:2px 0;display:flex;gap:4px;align-items:center"><span style="font-family:var(--mono)">${p.tipo} ${fE(p.importo)}</span><span class="badge b-${p.stato}" style="font-size:9px">${p.stato}</span>${p.det_n?' Det.'+p.det_n:''} <button class="btn btn-ghost" style="padding:1px 4px;font-size:9px" onclick="openPagPDF('${d.id}','${p.id}')">📄</button></div>`});
       docs+=`<div style="font-size:11px">Erogato: <strong style="color:var(--success)">${fE(er)}</strong>/${fE(d.contributo)}</div></div>`}
     if(d.pec_log?.length)docs+=`<div style="font-size:11px;color:var(--text-sec);margin-top:4px">📧 ${d.pec_log.length} PEC</div>`;
     return `<div class="card" style="border-left:4px solid ${FN[d.fondo]?.c||'#06c'}"><div class="card-h"><span class="badge b-${FN[d.fondo]?.cls}">${FN[d.fondo]?.l}</span> ${d.id} — ${d.company} <span class="badge b-${d.status}" style="margin-left:auto">${ST[d.status]||d.status}</span></div><div class="card-b"><div class="row">
@@ -680,10 +682,10 @@ function pgOD(){const b=myB(),d=myD(),cnt=s=>d.filter(x=>x.status===s).length;
   </div></div>
   `:''}
 
-  ${CU.ruolo!=='admin'&&CU.ruolo!=='presidente'&&gdriveToken?`<div class="card" style="border-left:4px solid var(--primary)"><div class="card-b" style="display:flex;align-items:center;gap:12px">
+  ${CU.ruolo!=='presidente'&&gdriveToken?`<div class="card" style="border-left:4px solid var(--primary)"><div class="card-b" style="display:flex;align-items:center;gap:12px">
     <div style="font-size:24px">📂</div>
-    <div style="flex:1"><strong>Archivio documenti su Drive</strong><div style="font-size:13px;color:var(--text-sec)">Accedi alle cartelle dei tuoi bandi</div></div>
-    <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(GDRIVE_CONFIG.ROOT_FOLDER_NAME)}" target="_blank" class="btn btn-p btn-sm">Apri Google Drive →</a>
+    <div style="flex:1"><strong>Archivio documenti su Drive</strong><div style="font-size:13px;color:var(--text-sec)">Cartelle bandi, verbali, pagamenti, REGIS</div></div>
+    <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(GDRIVE_CONFIG.ROOT_FOLDER_NAME)}" target="_blank" class="btn btn-p btn-sm">📂 Apri Google Drive →</a>
   </div></div>`:''}
 
   <div class="row" style="margin-bottom:16px">${[
@@ -1022,7 +1024,7 @@ function pgOP(){const doms=myD().filter(d=>['finanziata','in_pagamento','rendico
     ${d.pagamenti.map(p=>`<tr><td style="font-weight:600;font-size:13px">${p.tipo}</td><td style="font-family:var(--mono)">${fE(p.importo)}</td><td style="font-size:12px">${p.det_n||'—'}</td><td style="font-size:12px">${p.mand_n||'—'}</td><td style="font-size:12px">${fD(p.quiet_data)}</td>
     <td>${p.urbi_sync?'<span style="color:var(--success)">⟲✓</span>':`<button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="syncU('${d.id}','${p.id}')" title="API: GET /api/v1/contabilita/determine?cup=${d.cup}&n_det=${p.det_n||''}">⟲Sync</button>`}</td>
     <td><span class="badge b-${p.stato}">${p.stato}</span></td>
-    <td>${p.stato==='in_verifica'?`<button class="btn btn-ok btn-sm" onclick="eroP('${d.id}','${p.id}')">✓</button>`:''} <button class="btn btn-ghost" onclick="generaPagamentoPDF('${d.id}','${p.id}').then(r=>{if(r?.blob)window.open(URL.createObjectURL(r.blob))})" title="Apri PDF pagamento">📄</button></td></tr>`).join('')}
+    <td>${p.stato==='in_verifica'?`<button class="btn btn-ok btn-sm" onclick="eroP('${d.id}','${p.id}')">✓</button>`:''} <button class="btn btn-ghost" onclick="openPagPDF('${d.id}','${p.id}')" title="Apri PDF pagamento">📄</button></td></tr>`).join('')}
     </tbody></table>
     ${er<d.contributo?`<button class="btn btn-p btn-sm" onclick="newP('${d.id}')" style="margin-top:8px">+ Pagamento</button>`:''}</div></div>`});
   P().innerHTML=h}
