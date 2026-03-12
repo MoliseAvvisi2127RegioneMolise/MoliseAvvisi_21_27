@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--primary:#06c;--primary-dark:#004d99;--primary-darker:#003366;--primary-bg:#f0f6fc;--success:#008758;--success-bg:#d1e7dd;--danger:#d9364f;--danger-bg:#f8d7da;--warning:#a66300;--warning-bg:#fff3cd;--fesr:#1B4F72;--fesr-bg:#d4e6f1;--fse:#7D3C98;--fse-bg:#e8daef;--fsc:#B7950B;--fsc-bg:#fcf3cf;--text:#17324d;--text-sec:#5b6f82;--border:#d6dce3;--bg:#f5f6f7;--white:#fff;--radius:4px;--radius-lg:8px;--font:'Titillium Web',-apple-system,sans-serif;--mono:'Roboto Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);color:var(--text);background:var(--bg);font-size:16px;line-height:1.5}.container{max-width:1320px;margin:0 auto;padding:0 24px}
@@ -65,6 +65,10 @@ const ENTI_GESTORI=[
   {id:"pc",nome:"Protezione Civile Molise",logo:"🛡️"},
   {id:"asrem",nome:"ASReM Molise",logo:"🏥"},
 ];
+// Enti custom aggiunti dall'admin (caricabili con logo)
+const ENTI_CUSTOM=[];
+function allEnti(){return [...ENTI_GESTORI,...ENTI_CUSTOM]}
+function getEnte(id){return allEnti().find(x=>x.id===id)||{id,nome:id,logo:'🏛️'}}
 
 const PU=[
   {cf:"BNCMRC75A01A123B",nome:"Dott. Marco Bianchi",ruolo:"admin",ente:"Regione Molise",email:"m.bianchi@regione.molise.it",bandi:["*"],abilitato:true,nomina:"DGR 45/2024"},
@@ -170,8 +174,9 @@ function closeModal(){$$('modalBox').innerHTML=''}
 function rupN(cf){return PU.find(x=>x.cf===cf)?.nome||cf||'—'}
 function rupAgg(d){return d.rup_aggiudicazione?.cf?rupN(d.rup_aggiudicazione.cf):'—'}
 function rupEse(d){return d.rup_esecuzione?.cf?rupN(d.rup_esecuzione.cf):'—'}
-function enteN(id){return ENTI_GESTORI.find(x=>x.id===id)?.nome||id||'—'}
-function enteLogo(id){return ENTI_GESTORI.find(x=>x.id===id)?.logo||'🏛️'}
+function enteN(id){return getEnte(id).nome}
+function enteLogo(id){return getEnte(id).logo}
+function entiAvviso(av){return (av?.enti_gestori||[av?.ente_gestore]).map(id=>getEnte(id))}
 function myB(){return CU?.bandi?.includes('*')?AVVISI:AVVISI.filter(a=>CU.bandi.includes(a.id))}
 function myD(){const ids=myB().map(a=>a.id);return DB.applications.filter(d=>ids.includes(d.avviso))}
 function exportXls(n,s){const wb=XLSX.utils.book_new();s.forEach(x=>{XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(x.data),x.name.substring(0,31))});XLSX.writeFile(wb,n+'.xlsx');nfy('Excel: '+n+'.xlsx')}
@@ -200,9 +205,8 @@ function generaSilPkg(dom,renId){
 // GENERAZIONE PDF REALI — jsPDF (stile PA istituzionale)
 // Genera PDF veri, li mostra, li salva su Google Drive
 // ═══════════════════════════════════════════════════════════════
-const {jsPDF}=window.jspdf;
-
 function generaPDF(opts){
+  const {jsPDF}=window.jspdf;
   // opts: {titolo, sottotitolo, avviso, domanda, beneficiario, piva, email, importo, contributo, ente_logo, ente_nome, fondo, os, rup_nome, corpo_sections[], esito, esito_ok, firma_data}
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const W=210,H=297,M=20,CW=W-2*M;let y=M;
@@ -256,9 +260,9 @@ function generaPDF(opts){
 
   // Esito box
   if(opts.esito){y+=4;
-    doc.setFillColor(opts.esito_ok?209,231,221:248,215,218);
+    doc.setFillColor(...(opts.esito_ok?[209,231,221]:[248,215,218]));
     doc.roundedRect(M,y,CW,14,2,2,'F');
-    doc.setFontSize(13);doc.setTextColor(opts.esito_ok?15,81,50:132,32,41);doc.setFont(undefined,'bold');
+    doc.setFontSize(13);doc.setTextColor(...(opts.esito_ok?[15,81,50]:[132,32,41]));doc.setFont(undefined,'bold');
     doc.text('ESITO: '+opts.esito,W/2,y+9,{align:'center'});y+=22}
 
   // Firma
@@ -395,7 +399,7 @@ function pubCard(a){const f=FN[a.fondo];const stM={aperto:{l:'Aperto',c:'var(--s
   <div style="padding:10px 20px 14px;flex:1"><div style="font-size:16px;font-weight:700;margin-bottom:6px">${a.titolo}</div><p style="font-size:13px;color:var(--text-sec);margin-bottom:6px">${a.desc}</p><div style="font-size:12px;color:var(--text-sec)">${fE(a.dotazione)} · ${a.destinatari}</div></div>
   <div style="padding:10px 20px;border-top:1px solid #eee;background:#fafbfc;font-size:13px;color:var(--primary);font-weight:700">Dettaglio →</div></div>`}
 
-function showDetail(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;const f=FN[a.fondo];const eg=ENTI_GESTORI.find(x=>x.id===a.ente_gestore);
+function showDetail(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;const f=FN[a.fondo];const eg=getEnte(av?.ente_gestore);
   $$('publicScreen').innerHTML=`<div style="background:var(--primary-dark);color:#fff;padding:32px 0;border-bottom:3px solid #ffc107"><div class="container">
     <a onclick="renderPublic()" style="color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;display:block;margin-bottom:12px">← Torna</a>
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><span class="badge b-${f.cls}" style="font-size:13px;padding:5px 14px">${f.l}</span>${eg?`<span style="font-size:14px">${eg.logo} ${eg.nome}</span>`:''}</div>
@@ -575,16 +579,25 @@ function viewDocs(id){const d=DB.applications.find(x=>x.id===id);const docs=d.do
 
 // ─── Ammissibilità (checklist → verbale + PEC) ───
 function openAmm(id){const d=DB.applications.find(x=>x.id===id);const av=AVVISI.find(a=>a.id===d.avviso);if(!av?.config)return;
-  const cl=av.config.fasi_checklist||[];let h=`<div style="margin-bottom:12px"><strong>${d.company}</strong> — ${fE(d.importo)}</div>`;
+  const cl=av.config.fasi_checklist||[];
+  let h=`<div style="margin-bottom:12px"><strong>${d.company}</strong> — ${fE(d.importo)}</div>`;
+  // RUP Aggiudicazione assignment
+  h+=`<div style="margin-bottom:16px;padding:14px;background:var(--primary-bg);border:1px solid var(--primary);border-radius:var(--radius-lg)">
+    <strong style="color:var(--primary)">👤 RUP Aggiudicazione</strong><span style="font-size:12px;color:var(--text-sec)"> — responsabile fino ad accettazione finanziamento</span>
+    <div class="row" style="margin-top:8px"><div class="col-6"><div class="fg" style="margin:0"><label style="font-size:13px">RUP</label><select id="amm_rup">${PU.filter(u=>['rup','dirigente'].includes(u.ruolo)).map(u=>`<option value="${u.cf}" ${u.cf===av.config.rup?'selected':''}>${u.nome}</option>`).join('')}</select></div></div>
+    <div class="col-6"><div class="fg" style="margin:0"><label style="font-size:13px">Det. nomina</label><input type="text" id="amm_rup_det" placeholder="DET-2025-XXXX"></div></div></div></div>`;
   cl.forEach(fase=>{const ist=d.istruttoria?.[fase.id];
     h+=`<div style="margin-bottom:12px;padding:12px;border:1px solid ${ist?.done?'var(--success)':'var(--border)'};border-radius:var(--radius-lg);background:${ist?.done?'var(--success-bg)':'#fafbfc'}">
     <div style="font-weight:700;margin-bottom:6px">${fase.nome} ${ist?.done?'<span style="color:var(--success)">✓</span>':''}</div>`;
     if(!ist?.done){fase.items.forEach(it=>{h+=`<div style="padding:2px 0;font-size:13px"><label><input type="checkbox" checked> ${it}</label></div>`});
       h+=`<div style="margin-top:8px"><button class="btn btn-ok btn-sm" onclick="compAmm('${id}','${fase.id}',true)">✓ Conforme</button> <button class="btn btn-err btn-sm" onclick="compAmm('${id}','${fase.id}',false)">✕ Respingi</button></div>`}h+=`</div>`});
-  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" onclick="event.stopPropagation()"><div class="modal-h"><h3>Ammissibilità — ${d.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">${h}</div></div></div>`}
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" onclick="event.stopPropagation()"><div class="modal-h"><h3>Ammissibilità + RUP Aggiudicazione — ${d.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">${h}</div></div></div>`}
 
 function compAmm(id,fid,ok){const d=DB.applications.find(x=>x.id===id);if(!d.istruttoria)d.istruttoria={};d.istruttoria[fid]={done:true,ok,data:new Date().toISOString().slice(0,10)};
   const av=AVVISI.find(a=>a.id===d.avviso);
+  // Grab RUP aggiudicazione from modal
+  const rupCf=$$('amm_rup')?.value;const rupDet=$$('amm_rup_det')?.value;
+  if(rupCf)d.rup_aggiudicazione={cf:rupCf,determina:rupDet?{numero:rupDet,data:new Date().toISOString().slice(0,10),file:''}:null};
   if(!ok){closeModal();richiediFirmaAruba('Verbale non ammissibilita\' — '+d.id,()=>{
     d.status='non_ammissibile';d.verbali.push({tipo:'non_ammissibilita',data:new Date().toISOString().slice(0,10),firmato:true});d.pec_log.push({ogg:'Non ammissibilita\' '+d.id,dest:d.email,data:new Date().toISOString().slice(0,10)});
     salvaDocCloud(d.avviso,d.id,'02_Verbali','Verbale_NonAmmissibilita_'+d.id+'.pdf.p7m',null);
@@ -663,7 +676,7 @@ function saveCup(id){const cup=($$('cv')?.value||'').trim().toUpperCase();if(!cu
 ═══════════════════════════════════════════════════════════════════*/
 function pgOI(){const bandi=myB().filter(b=>b.config);let h=`<h2 style="margin-bottom:16px">Istruttoria completa</h2>`;
   bandi.forEach((av,bi)=>{const doms=DB.applications.filter(d=>d.avviso===av.id&&d.status!=='presentata'&&d.status!=='non_ammissibile');if(!doms.length)return;
-    const f=FN[av.fondo];const eg=ENTI_GESTORI.find(x=>x.id===av.ente_gestore);const sc=av.config;
+    const f=FN[av.fondo];const eg=getEnte(av?.ente_gestore);const sc=av.config;
     const daScoring=doms.filter(d=>d.status==='ammissibile');
     const ranked=doms.filter(d=>d.score).sort((a,b)=>b.score-a.score);
     const inGrad=ranked.filter(d=>d.status==='in_graduatoria');
@@ -681,7 +694,7 @@ function pgOI(){const bandi=myB().filter(b=>b.config);let h=`<h2 style="margin-b
         <span style="font-size:12px;color:var(--text-sec)">${d.rup_aggiudicazione?.cf?'RUP Agg: '+rupAgg(d):''}${rupDet?' · Det. '+rupDet.numero:''}</span>
         <div style="margin-left:auto;display:flex;gap:6px">
           <button class="btn btn-ghost" onclick="viewDocs('${d.id}')">📁 ${nD}</button>
-          <button class="btn btn-ghost" onclick="openNominaRup('${d.id}')" title="Nomina/modifica RUP">👤 RUP</button>
+          <button class="btn btn-ghost" onclick="openNominaRup('${d.id}','aggiudicazione')" title="Modifica RUP Aggiudicazione">👤 RUP Agg.</button>
           <button class="btn btn-p btn-sm" onclick="openSc('${d.id}')">📊 Valuta</button></div></div>`});
       h+=`</div>`}
 
@@ -743,7 +756,7 @@ function chiudiGraduatoria(avId){
   doms.forEach(d=>{if(residuo>=d.contributo){finanziabili.push(d);residuo-=d.contributo}else{nonFinanziabili.push(d)}});
 
   // Preview verbale
-  const eg=ENTI_GESTORI.find(x=>x.id===av.ente_gestore);
+  const eg=getEnte(av?.ente_gestore);
   let vTesto=`══════════════════════════════════════════════\n`;
   vTesto+=`REGIONE MOLISE${eg?' — '+eg.nome:''}\n`;
   vTesto+=`VERBALE DI CHIUSURA GRADUATORIA\n`;
@@ -774,7 +787,7 @@ function chiudiGraduatoria(avId){
     </div></div></div>`}
 
 function downloadVerbale(avId){
-  const av=AVVISI.find(a=>a.id===avId);const eg=ENTI_GESTORI.find(x=>x.id===av.ente_gestore);const fondo=FN[av.fondo];
+  const av=AVVISI.find(a=>a.id===avId);const eg=getEnte(av?.ente_gestore);const fondo=FN[av.fondo];
   const doms=DB.applications.filter(d=>d.avviso===avId&&d.score).sort((a,b)=>b.score-a.score);
   let budget=av.dotazione;let usato=0;
   DB.applications.filter(d=>d.avviso===avId&&['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status)).forEach(d=>usato+=d.contributo);
@@ -955,7 +968,10 @@ function pgOC(){if(CU?.ruolo!=='admin'){P().innerHTML='<div class="callout err">
       <div class="col-6"><div class="fg"><label>Apertura</label><input type="date" id="c_ap"></div></div>
       <div class="col-6"><div class="fg"><label>Chiusura</label><input type="date" id="c_ch"></div></div>
       <div class="col-6"><div class="fg"><label>Destinatari</label><input type="text" id="c_dest"></div></div>
-      <div class="col-6"><div class="fg"><label>Ente Gestore/Esecutore</label><select id="c_ente">${ENTI_GESTORI.map(e=>`<option value="${e.id}">${e.logo} ${e.nome}</option>`).join('')}</select></div></div>
+      <div class="col"><div class="fg"><label>Soggetti esecutori/gestori (uno per riga — nome; per ogni soggetto puoi caricare un logo)</label>
+        <textarea id="c_enti" style="min-height:60px" placeholder="Sviluppo Italia Molise S.p.A.&#10;Molise Dati S.p.A.&#10;ASReM">Regione Molise</textarea>
+        <div style="margin-top:6px"><label style="font-size:12px">Loghi soggetti (facoltativi — saranno usati nei verbali)</label>
+        <input type="file" id="c_enti_loghi" accept="image/*" multiple style="font-size:12px"></div></div></div>
       <div class="col-6"><div class="fg"><label>RUP iniziale</label><select id="c_rup">${PU.filter(u=>['rup','dirigente'].includes(u.ruolo)).map(u=>`<option value="${u.cf}">${u.nome}</option>`).join('')}</select></div></div>
     </div>
     <div class="fg"><label>Descrizione</label><textarea id="c_desc"></textarea></div>
@@ -1009,7 +1025,22 @@ function creaAv(){const t=$$('c_t')?.value;if(!t){nfy('Titolo','err');return}
   const ammI=($$('cf_amm')?.value||'').split('\n').filter(l=>l.trim());if(ammI.length)fasi_cl.push({id:'ammissibilita',nome:'Ammissibilita\'',items:ammI});
 
   const id='AV-'+String(AVVISI.length+1).padStart(3,'0');
-  AVVISI.push({id,fondo:$$('c_f')?.value||'FESR',os:$$('c_os')?.value||'',titolo:t,desc:$$('c_desc')?.value||t,descEstesa:'',dotazione:parseFloat($$('c_d')?.value)||0,stato:$$('c_st')?.value||'bozza',apertura:$$('c_ap')?.value||'',chiusura:$$('c_ch')?.value||'',destinatari:$$('c_dest')?.value||'',ente_gestore:$$('c_ente')?.value||'reg',allegati:[],
+  // Parse enti gestori (liberi, multipli)
+  const entiTxt=($$('c_enti')?.value||'Regione Molise').split('\n').map(s=>s.trim()).filter(s=>s);
+  const entiIds=entiTxt.map((nome,i)=>{
+    const id='custom_'+Date.now()+'_'+i;
+    // Check if already exists
+    const existing=allEnti().find(e=>e.nome.toLowerCase()===nome.toLowerCase());
+    if(existing)return existing.id;
+    ENTI_CUSTOM.push({id,nome,logo:'🏛️'});return id});
+  // Handle logo files
+  const logoFiles=$$('c_enti_loghi')?.files;
+  if(logoFiles){for(let i=0;i<Math.min(logoFiles.length,entiIds.length);i++){
+    const ente=getEnte(entiIds[i]);
+    const reader=new FileReader();const idx=i;
+    reader.onload=e=>{ente.logoUrl=e.target.result};reader.readAsDataURL(logoFiles[i])}}
+
+  AVVISI.push({id,fondo:$$('c_f')?.value||'FESR',os:$$('c_os')?.value||'',titolo:t,desc:$$('c_desc')?.value||t,descEstesa:'',dotazione:parseFloat($$('c_d')?.value)||0,stato:$$('c_st')?.value||'bozza',apertura:$$('c_ap')?.value||'',chiusura:$$('c_ch')?.value||'',destinatari:$$('c_dest')?.value||'',ente_gestore:entiIds[0]||'reg',enti_gestori:entiIds,allegati:[],
     config:{fasi_checklist:fasi_cl,criteri_scoring:criteri,soglia:parseInt($$('cf_soglia')?.value)||60,ha_graduatoria:true,
       documenti:[{id:'domanda',label:'Domanda',obb:true,fmt:'.pdf,.p7m'}],campi:[],
       fasi_pag:($$('cf_fp')?.value||'Anticipo,Saldo').split(',').map(s=>s.trim()),
