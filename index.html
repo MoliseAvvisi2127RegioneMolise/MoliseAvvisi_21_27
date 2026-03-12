@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <style>
 :root{--primary:#06c;--primary-dark:#004d99;--primary-darker:#003366;--primary-bg:#f0f6fc;--success:#008758;--success-bg:#d1e7dd;--danger:#d9364f;--danger-bg:#f8d7da;--warning:#a66300;--warning-bg:#fff3cd;--fesr:#1B4F72;--fesr-bg:#d4e6f1;--fse:#7D3C98;--fse-bg:#e8daef;--fsc:#B7950B;--fsc-bg:#fcf3cf;--text:#17324d;--text-sec:#5b6f82;--border:#d6dce3;--bg:#f5f6f7;--white:#fff;--radius:4px;--radius-lg:8px;--font:'Titillium Web',-apple-system,sans-serif;--mono:'Roboto Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);color:var(--text);background:var(--bg);font-size:16px;line-height:1.5}.container{max-width:1320px;margin:0 auto;padding:0 24px}
@@ -195,6 +196,185 @@ function generaSilPkg(dom,renId){
   return pkg;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// GENERAZIONE PDF REALI — jsPDF (stile PA istituzionale)
+// Genera PDF veri, li mostra, li salva su Google Drive
+// ═══════════════════════════════════════════════════════════════
+const {jsPDF}=window.jspdf;
+
+function generaPDF(opts){
+  // opts: {titolo, sottotitolo, avviso, domanda, beneficiario, piva, email, importo, contributo, ente_logo, ente_nome, fondo, os, rup_nome, corpo_sections[], esito, esito_ok, firma_data}
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,H=297,M=20,CW=W-2*M;let y=M;
+
+  // Header band
+  doc.setFillColor(0,51,102);doc.rect(0,0,W,32,  'F');
+  doc.setFontSize(10);doc.setTextColor(255,255,255);
+  doc.text(opts.ente_logo||'',M,12);
+  doc.setFontSize(14);doc.text('REGIONE MOLISE',M+8,12);
+  doc.setFontSize(9);doc.text(opts.ente_nome||'Giunta Regionale',M+8,18);
+  doc.setFontSize(8);doc.text((opts.fondo||'')+' — '+(opts.os||''),M+8,24);
+  // Accent line
+  doc.setFillColor(255,193,7);doc.rect(0,32,W,2,'F');
+  y=42;
+
+  // Title
+  doc.setFontSize(16);doc.setTextColor(0,51,102);
+  doc.text(opts.titolo||'VERBALE',W/2,y,{align:'center'});y+=8;
+  if(opts.sottotitolo){doc.setFontSize(10);doc.setTextColor(91,111,130);doc.text(opts.sottotitolo,W/2,y,{align:'center'});y+=8}
+  y+=4;
+
+  // Info box
+  doc.setDrawColor(214,220,227);doc.setFillColor(250,251,252);doc.roundedRect(M,y,CW,36,2,2,'FD');
+  doc.setFontSize(9);doc.setTextColor(23,50,77);
+  const info=[['Avviso',opts.avviso||''],['Domanda',opts.domanda||''],['Richiedente',opts.beneficiario||''],['P.IVA/CF',opts.piva||''],['PEC',opts.email||''],['Investimento',opts.importo||''],['Contributo',opts.contributo||'']];
+  let ix=M+4,iy=y+5;info.forEach((r,i)=>{
+    doc.setFont(undefined,'bold');doc.text(r[0]+':',ix,iy);doc.setFont(undefined,'normal');doc.text(' '+r[1],ix+28,iy);
+    if(i%2===0)ix=M+CW/2+4;else{ix=M+4;iy+=5}});
+  y+=42;
+
+  // Corpo sections
+  if(opts.corpo_sections){opts.corpo_sections.forEach(sec=>{
+    if(y>H-50){doc.addPage();y=M}
+    if(sec.titolo){doc.setFontSize(11);doc.setTextColor(0,51,102);doc.setFont(undefined,'bold');doc.text(sec.titolo,M,y);y+=2;
+      doc.setDrawColor(0,77,153);doc.setLineWidth(.4);doc.line(M,y,M+CW,y);y+=5}
+    doc.setFont(undefined,'normal');doc.setFontSize(9);doc.setTextColor(23,50,77);
+
+    if(sec.testo){const lines=doc.splitTextToSize(sec.testo,CW);doc.text(lines,M,y);y+=lines.length*4+4}
+
+    if(sec.tabella){const t=sec.tabella;// [[header],[rows...]]
+      const colW=CW/t[0].length;
+      // header
+      doc.setFillColor(0,51,102);doc.rect(M,y-1,CW,6,'F');doc.setTextColor(255);doc.setFontSize(8);doc.setFont(undefined,'bold');
+      t[0].forEach((c,ci)=>doc.text(c,M+ci*colW+2,y+3));y+=7;
+      doc.setTextColor(23,50,77);doc.setFont(undefined,'normal');
+      for(let ri=1;ri<t.length;ri++){if(y>H-30){doc.addPage();y=M}
+        if(ri%2===0){doc.setFillColor(240,246,252);doc.rect(M,y-3,CW,5,'F')}
+        t[ri].forEach((c,ci)=>doc.text(String(c),M+ci*colW+2,y));y+=5}
+      y+=4}
+  })}
+
+  // Esito box
+  if(opts.esito){y+=4;
+    doc.setFillColor(opts.esito_ok?209,231,221:248,215,218);
+    doc.roundedRect(M,y,CW,14,2,2,'F');
+    doc.setFontSize(13);doc.setTextColor(opts.esito_ok?15,81,50:132,32,41);doc.setFont(undefined,'bold');
+    doc.text('ESITO: '+opts.esito,W/2,y+9,{align:'center'});y+=22}
+
+  // Firma
+  if(y>H-40){doc.addPage();y=M}
+  y=Math.max(y,H-55);
+  doc.setFontSize(9);doc.setTextColor(91,111,130);doc.setFont(undefined,'normal');
+  doc.text('Luogo e data',M,y);doc.text('Il Responsabile del Procedimento',W-M-60,y);y+=8;
+  doc.setDrawColor(23,50,77);doc.line(M,y,M+50,y);doc.line(W-M-60,y,W-M,y);y+=4;
+  doc.setTextColor(23,50,77);doc.setFont(undefined,'bold');
+  doc.text('Campobasso, '+(opts.firma_data||new Date().toLocaleDateString('it-IT')),M,y);
+  doc.text(opts.rup_nome||'',W-M-60,y);y+=4;
+  doc.setFont(undefined,'normal');doc.setFontSize(8);doc.setTextColor(91,111,130);
+  doc.text('Firmato digitalmente (Aruba ASSR — FEQ PADES)',W-M-60,y);
+
+  // Footer
+  doc.setFontSize(7);doc.setTextColor(160);
+  doc.text(opts.ente_nome+' — '+opts.avviso+' — Generato da MoliseAvvisi21-27',W/2,H-8,{align:'center'});
+
+  return doc}
+
+// Helper: genera PDF verbale per tipo, lo apre e lo salva su GDrive
+async function creaVerbalePDF(domId,tipo,extraData){
+  const d=DB.applications.find(x=>x.id===domId);const av=AVVISI.find(a=>a.id===d.avviso);
+  const eg=ENTI_GESTORI.find(x=>x.id===av?.ente_gestore);const fondo=FN[d.fondo];
+  const rupNome=rupN(d.rup_aggiudicazione?.cf||av?.config?.rup);
+  const base={avviso:av?.id+' — '+av?.titolo,domanda:d.id,beneficiario:d.company,piva:d.piva,email:d.email,importo:fE(d.importo),contributo:fE(d.contributo),ente_logo:eg?.logo||'',ente_nome:eg?.nome||'Regione Molise',fondo:fondo?.l,os:av?.os,rup_nome:rupNome,firma_data:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'})};
+
+  let pdf;const fileName='Verbale_'+tipo+'_'+d.id+'.pdf';
+  switch(tipo){
+    case 'ammissibilita':
+      pdf=generaPDF({...base,titolo:'VERBALE DI AMMISSIBILITA\'',sottotitolo:'Verifica requisiti formali e sostanziali',
+        corpo_sections:[
+          {testo:'Il sottoscritto RUP, verificata la documentazione pervenuta per la domanda '+d.id+' presentata da '+d.company+' in data '+fD(d.submittedAt)+', ha proceduto alla verifica dei requisiti.'},
+          {titolo:'Checklist verifiche',tabella:[['Requisito','Esito'],...(av?.config?.fasi_checklist||[]).flatMap(f=>f.items.map(it=>[it,'✓ Conforme']))]},
+        ],esito:'AMMESSA A ISTRUTTORIA',esito_ok:true});break;
+    case 'non_ammissibilita':
+      pdf=generaPDF({...base,titolo:'VERBALE DI NON AMMISSIBILITA\'',
+        corpo_sections:[{testo:'La domanda '+d.id+' di '+d.company+' NON soddisfa i requisiti previsti dall\'Avviso. La domanda e\' pertanto dichiarata non ammissibile.'}],
+        esito:'NON AMMISSIBILE',esito_ok:false});break;
+    case 'scoring':
+      const sc=d.istruttoria?.scoring;const criteri=av?.config?.criteri_scoring||[];
+      pdf=generaPDF({...base,titolo:'VERBALE DI VALUTAZIONE DI MERITO',sottotitolo:'Punteggio: '+d.score+'/100 — Soglia: '+(av?.config?.soglia||60),
+        corpo_sections:[
+          {testo:'La Commissione di Valutazione ha esaminato la domanda '+d.id+' di '+d.company+'.'},
+          {titolo:'Punteggi attribuiti',tabella:[['Criterio','Punteggio','Max'],...criteri.map(c=>[c.nome,String(sc?.dettaglio?.[c.id]||0),String(c.max)]),['TOTALE',String(d.score),'100']]},
+          {testo:'Soglia minima: '+(av?.config?.soglia||60)+'/100\nEsito: '+(d.score>=(av?.config?.soglia||60)?'Sopra soglia — In graduatoria':'Sotto soglia — Non ammissibile')},
+        ],esito:d.score>=(av?.config?.soglia||60)?'IN GRADUATORIA':'SOTTO SOGLIA',esito_ok:d.score>=(av?.config?.soglia||60)});break;
+    case 'graduatoria_ammesso':
+      pdf=generaPDF({...base,titolo:'COMUNICAZIONE DI AMMISSIONE A FINANZIAMENTO',sottotitolo:'Posizione in graduatoria: '+(d.graduatoria_pos||'—'),
+        corpo_sections:[{testo:'A seguito della chiusura della graduatoria definitiva dell\'Avviso '+av?.titolo+', la domanda '+d.id+' di '+d.company+' risulta FINANZIABILE.\n\nContributo concesso: '+fE(d.contributo)+'\n\nIl beneficiario e\' tenuto ad accettare il finanziamento entro i termini previsti dall\'Avviso, pena lo scorrimento della graduatoria.'}],
+        esito:'AMMESSA A FINANZIAMENTO',esito_ok:true});break;
+    case 'graduatoria_non_finanziabile':
+      pdf=generaPDF({...base,titolo:'COMUNICAZIONE DI NON FINANZIABILITA\'',
+        corpo_sections:[{testo:'La domanda '+d.id+' di '+d.company+', pur avendo superato la soglia minima con punteggio '+d.score+'/100, risulta NON FINANZIABILE per esaurimento della dotazione finanziaria dell\'Avviso.'}],
+        esito:'NON FINANZIABILE (budget esaurito)',esito_ok:false});break;
+    case 'scorrimento_graduatoria':
+      pdf=generaPDF({...base,titolo:'COMUNICAZIONE SCORRIMENTO GRADUATORIA',
+        corpo_sections:[{testo:'A seguito della rinuncia di un beneficiario in posizione superiore, la domanda '+d.id+' di '+d.company+' risulta FINANZIABILE per scorrimento della graduatoria.\n\nContributo: '+fE(d.contributo)}],
+        esito:'AMMESSA PER SCORRIMENTO',esito_ok:true});break;
+    default:
+      pdf=generaPDF({...base,titolo:'VERBALE — '+tipo.toUpperCase(),corpo_sections:[{testo:extraData||''}],esito:'',esito_ok:true})
+  }
+
+  // Apri in nuova tab
+  const blob=pdf.output('blob');const url=URL.createObjectURL(blob);window.open(url,'_blank');
+
+  // Salva su Google Drive
+  if(gdriveToken){
+    try{
+      const rootId=gdriveRootId||await trovaOCreaCartella(GDRIVE_CONFIG.ROOT_FOLDER_NAME,null);
+      const avFid=await trovaOCreaCartella(av.id+'_'+(av?.titolo||'').replace(/[^a-zA-Z0-9]/g,'_').substring(0,30),rootId);
+      const dFid=await trovaOCreaCartella(d.id+'_'+d.company.replace(/[^a-zA-Z0-9]/g,'_'),avFid);
+      const vFid=await trovaOCreaCartella('02_Verbali',dFid);
+      const meta={name:fileName,parents:[vFid]};const form=new FormData();
+      form.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));
+      form.append('file',blob);
+      await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+gdriveToken},body:form});
+      nfy('☁️ PDF salvato su Drive: '+fileName);
+    }catch(e){console.error('GDrive upload:',e);nfy('PDF generato (Drive offline)','err')}
+  } else {nfy('PDF generato — Connetti Drive per archiviazione')}
+  return pdf}
+
+// Helper: genera PDF pagamento (da URBI sync)
+async function generaPagamentoPDF(domId,pagId){
+  const d=DB.applications.find(x=>x.id===domId);const p=d.pagamenti.find(x=>x.id===pagId);
+  const av=AVVISI.find(a=>a.id===d.avviso);const eg=ENTI_GESTORI.find(x=>x.id===av?.ente_gestore);const fondo=FN[d.fondo];
+  const pdf=generaPDF({
+    titolo:'PROSPETTO PAGAMENTO',sottotitolo:p.tipo+' — CUP: '+(d.cup||'N/A'),
+    avviso:av?.id+' — '+av?.titolo,domanda:d.id,beneficiario:d.company,piva:d.piva,email:d.email,
+    importo:fE(d.importo),contributo:fE(d.contributo),ente_logo:eg?.logo||'',ente_nome:eg?.nome||'',
+    fondo:fondo?.l,os:av?.os,rup_nome:rupN(d.rup_esecuzione?.cf||d.rup_aggiudicazione?.cf||''),
+    firma_data:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'}),
+    corpo_sections:[
+      {titolo:'Dati pagamento',tabella:[['Campo','Valore'],
+        ['Fase',p.tipo],['Importo',fE(p.importo)],['N. Determina',p.det_n||'—'],['Data Determina',fD(p.det_data)],
+        ['N. Mandato',p.mand_n||'—'],['Data Mandato',fD(p.mand_data)],['Data Quietanza',fD(p.quiet_data)],
+        ['Stato',p.stato==='erogato'?'EROGATO':'IN VERIFICA'],['Sync URBI',p.urbi_sync?'SI':'NO']]},
+      {testo:'CUP: '+(d.cup||'N/A')+'\nBeneficiario: '+d.company}
+    ],esito:p.stato==='erogato'?'PAGAMENTO EROGATO':'IN VERIFICA',esito_ok:p.stato==='erogato'
+  });
+  const fileName='Pagamento_'+p.id+'_'+p.tipo.replace(/[^a-zA-Z0-9]/g,'_')+'.pdf';
+  const blob=pdf.output('blob');
+  if(gdriveToken){
+    try{
+      const rootId=gdriveRootId||await trovaOCreaCartella(GDRIVE_CONFIG.ROOT_FOLDER_NAME,null);
+      const avFid=await trovaOCreaCartella(av.id+'_'+(av?.titolo||'').replace(/[^a-zA-Z0-9]/g,'_').substring(0,30),rootId);
+      const dFid=await trovaOCreaCartella(d.id+'_'+d.company.replace(/[^a-zA-Z0-9]/g,'_'),avFid);
+      const pFid=await trovaOCreaCartella('04_Pagamenti',dFid);
+      const meta={name:fileName,parents:[pFid]};const form=new FormData();
+      form.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));form.append('file',blob);
+      await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+gdriveToken},body:form});
+      nfy('☁️ '+fileName+' → Drive/04_Pagamenti');
+    }catch(e){console.error(e)}
+  }
+  return {blob,fileName}}
+
 /*═══════════════════════════════════════════════════════════════════
   PUBLIC HOMEPAGE + DETTAGLIO AVVISO
 ═══════════════════════════════════════════════════════════════════*/
@@ -274,7 +454,7 @@ function pgBD(){const a=DB.applications;
   ${a.map(d=>{
     // Sezione documenti scaricabili + upload accettazione
     let docCol='';
-    if(d.verbali?.length) docCol+=d.verbali.map(v=>`<div style="font-size:11px;cursor:pointer;color:var(--primary);padding:1px 0" onclick="nfy('Download: Verbale_${v.tipo}_${d.id}.pdf')">📄 ${v.tipo} ${v.punteggio?'('+v.punteggio+'/100)':''} ${v.firmato?'✍RUP':''} ${fD(v.data)}</div>`).join('');
+    if(d.verbali?.length) docCol+=d.verbali.map(v=>`<div style="font-size:11px;cursor:pointer;color:var(--primary);padding:1px 0" onclick="creaVerbalePDF('${d.id}','${v.tipo}')">📄 ${v.tipo} ${v.punteggio?'('+v.punteggio+'/100)':''} ${v.firmato?'✍RUP':''} ${fD(v.data)}</div>`).join('');
     if(d.pec_log?.length) docCol+=`<div style="font-size:11px;color:var(--text-sec);margin-top:2px">📧 ${d.pec_log.length} PEC ricevute</div>`;
     if(d.status==='da_accettare') docCol+=`<div style="margin-top:4px"><button class="btn btn-ok btn-sm" onclick="accettaFinanziamento('${d.id}')">✍ Accetta finanziamento</button></div>`;
     if(d.accettazione?.firmata) docCol+=`<div style="font-size:11px;color:var(--success)">✓ Accettazione firmata ${fD(d.accettazione.data)}</div>`;
@@ -375,7 +555,7 @@ function viewDocs(id){const d=DB.applications.find(x=>x.id===id);const docs=d.do
   else h+='<div class="callout warn">Nessun documento caricato.</div>';
   // Verbali generati
   if(d.verbali?.length){h+=`<h4 style="margin-top:16px;margin-bottom:8px">📋 Verbali istruttoria</h4>`;
-    d.verbali.forEach(v=>{h+=`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee"><span style="font-size:20px">📋</span><div style="flex:1"><strong style="font-size:13px">Verbale ${v.tipo}</strong>${v.punteggio?` — Punteggio: <strong>${v.punteggio}/100</strong>`:''}<div style="font-size:12px;color:var(--text-sec)">${fD(v.data)} ${v.firmato?'· ✍ Firmato RUP: '+rupAgg(d):''}</div></div><button class="btn btn-ghost" onclick="nfy('Download: Verbale_${v.tipo}_${d.id}.pdf')">⬇</button></div>`})}
+    d.verbali.forEach(v=>{h+=`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee"><span style="font-size:20px">📋</span><div style="flex:1"><strong style="font-size:13px">Verbale ${v.tipo}</strong>${v.punteggio?` — Punteggio: <strong>${v.punteggio}/100</strong>`:''}<div style="font-size:12px;color:var(--text-sec)">${fD(v.data)} ${v.firmato?'· ✍ Firmato RUP: '+rupAgg(d):''}</div></div><button class="btn btn-ghost" onclick="creaVerbalePDF('${d.id}','${v.tipo}')">📄 Apri PDF</button></div>`})}
   // Nomina RUP specifica
   if(d.rup_aggiudicazione?.cf){h+=`<h4 style="margin-top:16px;margin-bottom:8px">👤 RUP Aggiudicazione</h4>
     <div style="padding:12px;background:var(--primary-bg);border-radius:var(--radius)"><strong>${rupN(d.rup_aggiudicazione.cf)}</strong>
@@ -426,101 +606,7 @@ function compAmm(id,fid,ok){const d=DB.applications.find(x=>x.id===id);if(!d.ist
 window._lastVerbaleText='';
 
 function openVerbalePA(domId,tipo){
-  const d=DB.applications.find(x=>x.id===domId);const av=AVVISI.find(a=>a.id===d.avviso);
-  const eg=ENTI_GESTORI.find(x=>x.id===av?.ente_gestore);const rupNome=rupN(d.rup_aggiudicazione?.cf||av?.config?.rup);
-  const data=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
-  const fondo=FN[d.fondo];
-
-  let titolo='',corpo='',esito='',esitoClass='';
-  switch(tipo){
-    case 'ammissibilita':
-      titolo='VERBALE DI AMMISSIBILITA\'';
-      corpo=`<p>Il sottoscritto RUP, verificata la documentazione pervenuta relativa alla domanda <strong>${d.id}</strong> presentata da <strong>${d.company}</strong> (P.IVA: ${d.piva}) in data ${fD(d.submittedAt)}, ha proceduto alla verifica dei requisiti di ammissibilita' previsti dall'Avviso.</p>
-      <table><tr><th>Verifica</th><th>Esito</th></tr>
-      ${(av?.config?.fasi_checklist||[]).map(f=>f.items.map(it=>`<tr><td>${it}</td><td style="color:#008758;font-weight:700">✓ Conforme</td></tr>`).join('')).join('')}
-      </table>`;
-      esito='DOMANDA AMMESSA A ISTRUTTORIA';esitoClass='ok';break;
-    case 'non_ammissibilita':
-      titolo='VERBALE DI NON AMMISSIBILITA\'';
-      corpo=`<p>La domanda <strong>${d.id}</strong> di <strong>${d.company}</strong> NON soddisfa i requisiti formali previsti dall'Avviso.</p>`;
-      esito='DOMANDA NON AMMISSIBILE';esitoClass='ko';break;
-    case 'scoring':
-      titolo='VERBALE DI VALUTAZIONE DI MERITO';
-      const sc=d.istruttoria?.scoring;
-      corpo=`<p>La Commissione di Valutazione ha proceduto all'esame della domanda <strong>${d.id}</strong> di <strong>${d.company}</strong>.</p>
-      <table><tr><th>Criterio</th><th style="text-align:center">Punteggio</th><th style="text-align:center">Max</th></tr>
-      ${(av?.config?.criteri_scoring||[]).map(c=>`<tr><td>${c.nome}</td><td style="text-align:center;font-weight:700;font-size:14pt">${sc?.dettaglio?.[c.id]||0}</td><td style="text-align:center">${c.max}</td></tr>`).join('')}
-      <tr style="background:#e8ecf0;font-weight:700"><td>TOTALE</td><td style="text-align:center;font-size:16pt">${d.score}</td><td style="text-align:center">100</td></tr>
-      </table><p>Soglia minima: <strong>${av?.config?.soglia||60}/100</strong></p>`;
-      esito=d.score>=(av?.config?.soglia||60)?'AMMESSA IN GRADUATORIA':'NON AMMISSIBILE (sotto soglia)';
-      esitoClass=d.score>=(av?.config?.soglia||60)?'ok':'ko';break;
-    case 'graduatoria':
-      titolo='VERBALE DI CHIUSURA GRADUATORIA';
-      corpo=`<p>Completata la valutazione di tutte le domande pervenute.</p>`;esito='GRADUATORIA APPROVATA';esitoClass='ok';break;
-  }
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Verbale ${tipo} — ${d.id}</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap');
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Titillium Web',sans-serif;color:#17324d;font-size:11pt;line-height:1.6}
-    .page{max-width:210mm;margin:20px auto;padding:30mm 25mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.1)}
-    .header{display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:3px solid #003366;margin-bottom:20px}
-    .logo-ente{font-size:36px}.ente-info{flex:1}
-    .ente-name{font-size:14pt;font-weight:700;color:#003366}.ente-sub{font-size:9pt;color:#5b6f82}
-    .fondo-badge{display:inline-block;padding:4px 14px;border-radius:4px;font-size:9pt;font-weight:700;color:#fff;background:${fondo?.c||'#06c'};margin-top:4px}
-    .doc-title{font-size:16pt;font-weight:700;color:#003366;margin:20px 0 8px;text-align:center;text-transform:uppercase}
-    .doc-sub{text-align:center;font-size:10pt;color:#5b6f82;margin-bottom:20px}
-    .section{margin:16px 0}.section-title{font-weight:700;font-size:11pt;color:#003366;border-bottom:2px solid #d6dce3;padding-bottom:4px;margin-bottom:8px}
-    table{width:100%;border-collapse:collapse;margin:12px 0;font-size:10pt}
-    th{background:#003366;color:#fff;padding:8px 12px;text-align:left;font-size:9pt}
-    td{padding:8px 12px;border-bottom:1px solid #e8ecf0}
-    .esito-box{margin:20px 0;padding:16px;border-radius:4px;text-align:center;font-size:14pt;font-weight:700;border:2px solid}
-    .esito-ok{background:#d1e7dd;color:#0f5132;border-color:#0f5132}.esito-ko{background:#f8d7da;color:#842029;border-color:#842029}
-    .firma{margin-top:40px;display:flex;justify-content:space-between}
-    .firma-col{text-align:center;min-width:200px}.firma-label{font-size:9pt;color:#5b6f82}.firma-name{margin-top:30px;border-top:1px solid #17324d;padding-top:4px;font-weight:600}
-    .footer-doc{margin-top:30px;padding-top:12px;border-top:1px solid #d6dce3;font-size:8pt;color:#5b6f82;text-align:center}
-    .actions{text-align:center;margin:20px 0;display:flex;gap:12px;justify-content:center}
-    .actions button{padding:12px 28px;border:2px solid #003366;border-radius:4px;font-family:'Titillium Web';font-size:12pt;font-weight:700;cursor:pointer;text-transform:uppercase}
-    .actions .primary{background:#003366;color:#fff}.actions .secondary{background:#fff;color:#003366}
-    @media print{.actions{display:none!important}.page{box-shadow:none;margin:0;padding:20mm}}
-  </style></head><body>
-  <div class="page">
-    <div class="header">
-      <div class="logo-ente">${eg?.logo||'🏛️'}</div>
-      <div class="ente-info">
-        <div class="ente-name">REGIONE MOLISE — GIUNTA REGIONALE</div>
-        <div class="ente-sub">${eg?eg.nome+'<br>':''} Servizio Sistemi Informativi e Transizione al Digitale</div>
-        <div class="fondo-badge">${fondo?.l||''} — ${av?.os||''}</div>
-      </div>
-    </div>
-    <div class="doc-title">${titolo}</div>
-    <div class="doc-sub">Avviso: ${av?.titolo||''} (${av?.id||''})<br>Domanda: ${d.id} — Prot. ${d.submittedAt}</div>
-    <div class="section"><div class="section-title">Dati della domanda</div>
-      <table><tr><td style="width:35%">Richiedente</td><td><strong>${d.company}</strong></td></tr>
-      <tr><td>P.IVA / C.F.</td><td>${d.piva||'—'}</td></tr>
-      <tr><td>PEC</td><td>${d.email||'—'}</td></tr>
-      <tr><td>Investimento</td><td>${fE(d.importo)}</td></tr>
-      <tr><td>Contributo richiesto</td><td>${fE(d.contributo)}</td></tr>
-      <tr><td>Data presentazione</td><td>${fD(d.submittedAt)}</td></tr></table>
-    </div>
-    <div class="section"><div class="section-title">Esame</div>${corpo}</div>
-    <div class="esito-box esito-${esitoClass}">ESITO: ${esito}</div>
-    <div class="firma">
-      <div class="firma-col"><div class="firma-label">Luogo e data</div><div class="firma-name">Campobasso, ${data}</div></div>
-      <div class="firma-col"><div class="firma-label">Il Responsabile del Procedimento</div><div class="firma-name">${rupNome}<br><span style="font-size:9pt;color:#5b6f82">Firmato digitalmente</span></div></div>
-    </div>
-    <div class="footer-doc">${eg?eg.nome+' — ':''}Avviso ${av?.id} — Verbale generato da MoliseAvvisi21-27<br>Archiviato nel fascicolo ${d.id}</div>
-  </div>
-  <div class="actions">
-    <button class="primary" onclick="window.print()">Stampa / Salva PDF</button>
-    <button class="secondary" onclick="window.close()">Chiudi</button>
-  </div>
-  </body></html>`;
-
-  const win=window.open('','_blank','width=900,height=800');
-  win.document.write(html);win.document.close();
-  nfy(`Verbale ${tipo} generato — Firma RUP + PEC inviata`);
+  creaVerbalePDF(domId,tipo);
   setTimeout(()=>go('o_istr'),500)}
 
 // ─── Scoring (N criteri dinamici) ───
@@ -690,92 +776,48 @@ function chiudiGraduatoria(avId){
 function downloadVerbale(avId){
   const av=AVVISI.find(a=>a.id===avId);const eg=ENTI_GESTORI.find(x=>x.id===av.ente_gestore);const fondo=FN[av.fondo];
   const doms=DB.applications.filter(d=>d.avviso===avId&&d.score).sort((a,b)=>b.score-a.score);
-  const rupNome=rupN(av.config?.rup);const data=new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
   let budget=av.dotazione;let usato=0;
   DB.applications.filter(d=>d.avviso===avId&&['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status)).forEach(d=>usato+=d.contributo);
   let residuo=budget-usato;
-  let righeHtml='';
-  doms.forEach((d,i)=>{const fin=residuo>=d.contributo;if(d.status==='in_graduatoria'){if(fin)residuo-=d.contributo}
-    const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status);
-    righeHtml+=`<tr style="${!isFin&&!fin?'background:#f8d7da':''}"><td style="font-weight:700;text-align:center">${i+1}</td><td>${d.id}</td><td>${d.company}</td><td style="text-align:center;font-weight:700;font-size:14pt">${d.score}</td><td style="text-align:right">${fE(d.contributo)}</td><td style="text-align:center;font-weight:700;color:${isFin||fin?'#0f5132':'#842029'}">${isFin||fin?'SI':'NO'}</td></tr>`});
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Verbale Graduatoria ${avId}</title>
-  <style>@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap');
-  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Titillium Web',sans-serif;color:#17324d;font-size:11pt;line-height:1.6}
-  .page{max-width:210mm;margin:20px auto;padding:30mm 25mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.1)}
-  .header{display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:3px solid #003366;margin-bottom:20px}
-  .logo-ente{font-size:36px}.ente-name{font-size:14pt;font-weight:700;color:#003366}.ente-sub{font-size:9pt;color:#5b6f82}
-  .fondo-badge{display:inline-block;padding:4px 14px;border-radius:4px;font-size:9pt;font-weight:700;color:#fff;background:${fondo?.c||'#06c'};margin-top:4px}
-  .doc-title{font-size:16pt;font-weight:700;color:#003366;margin:20px 0 8px;text-align:center;text-transform:uppercase}
-  .doc-sub{text-align:center;font-size:10pt;color:#5b6f82;margin-bottom:20px}
-  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:10pt}th{background:#003366;color:#fff;padding:8px 12px;text-align:left;font-size:9pt}td{padding:8px 12px;border-bottom:1px solid #e8ecf0}
-  .esito-box{margin:20px 0;padding:16px;border-radius:4px;text-align:center;font-size:12pt;font-weight:700;background:#d1e7dd;color:#0f5132;border:2px solid #0f5132}
-  .firma{margin-top:40px;display:flex;justify-content:space-between}.firma-col{text-align:center;min-width:200px}.firma-label{font-size:9pt;color:#5b6f82}.firma-name{margin-top:30px;border-top:1px solid #17324d;padding-top:4px;font-weight:600}
-  .footer-doc{margin-top:30px;padding-top:12px;border-top:1px solid #d6dce3;font-size:8pt;color:#5b6f82;text-align:center}
-  .actions{text-align:center;margin:20px 0}.actions button{padding:12px 28px;border:2px solid #003366;border-radius:4px;font-family:'Titillium Web';font-size:12pt;font-weight:700;cursor:pointer;background:#003366;color:#fff;margin:0 8px}
-  @media print{.actions{display:none!important}.page{box-shadow:none;margin:0;padding:20mm}}
-  </style></head><body><div class="page">
-  <div class="header"><div class="logo-ente">${eg?.logo||'🏛️'}</div><div><div class="ente-name">REGIONE MOLISE — GIUNTA REGIONALE</div><div class="ente-sub">${eg?eg.nome:''}</div><div class="fondo-badge">${fondo?.l} — ${av.os}</div></div></div>
-  <div class="doc-title">VERBALE DI CHIUSURA GRADUATORIA</div>
-  <div class="doc-sub">Avviso: ${av.titolo} (${av.id})<br>Dotazione: ${fE(av.dotazione)} — Data: ${data}</div>
-  <table><thead><tr><th>#</th><th>ID</th><th>Richiedente</th><th style="text-align:center">Score</th><th style="text-align:right">Contributo</th><th style="text-align:center">Finanziabile</th></tr></thead><tbody>${righeHtml}</tbody></table>
-  <div class="esito-box">GRADUATORIA APPROVATA</div>
-  <div class="firma"><div class="firma-col"><div class="firma-label">Luogo e data</div><div class="firma-name">Campobasso, ${data}</div></div><div class="firma-col"><div class="firma-label">Il RUP</div><div class="firma-name">${rupNome}<br><span style="font-size:9pt;color:#5b6f82">Firmato digitalmente</span></div></div></div>
-  <div class="footer-doc">${eg?eg.nome+' — ':''}Avviso ${av.id} — MoliseAvvisi21-27</div>
-  </div><div class="actions"><button onclick="window.print()">Stampa / Salva PDF</button></div></body></html>`;
-  const win=window.open('','_blank','width=900,height=800');win.document.write(html);win.document.close();
-  nfy('Verbale graduatoria generato — Stampa o salva PDF')}
+  // Genera PDF reale della graduatoria
+  const rows=[['#','ID','Richiedente','Score','Contributo','Finanziab.']];
+  doms.forEach((d,i)=>{const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status);
+    const fin=isFin||(d.status==='in_graduatoria'&&residuo>=d.contributo);
+    if(d.status==='in_graduatoria'&&fin)residuo-=d.contributo;
+    rows.push([String(i+1),d.id,d.company,String(d.score),fE(d.contributo),fin?'SI':'NO'])});
+  const pdf=generaPDF({
+    titolo:'VERBALE DI CHIUSURA GRADUATORIA',sottotitolo:'Avviso: '+av.titolo+' ('+av.id+')',
+    avviso:av.id+' — '+av.titolo,domanda:'Tutti',beneficiario:'—',piva:'—',email:'—',
+    importo:fE(av.dotazione),contributo:'Budget residuo: '+fE(residuo),
+    ente_logo:eg?.logo||'',ente_nome:eg?.nome||'',fondo:fondo?.l,os:av.os,
+    rup_nome:rupN(av.config?.rup),firma_data:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'}),
+    corpo_sections:[{titolo:'Graduatoria definitiva',tabella:rows}],
+    esito:'GRADUATORIA APPROVATA',esito_ok:true});
+  const blob=pdf.output('blob');window.open(URL.createObjectURL(blob),'_blank');
+  nfy('PDF graduatoria generato')}
 
 function confermaChiusura(avId){
   closeModal();
-  richiediFirmaAruba('Verbale chiusura graduatoria — '+avId,()=>{
+  richiediFirmaAruba('Verbale chiusura graduatoria — '+avId,async()=>{
     const av=AVVISI.find(a=>a.id===avId);const doms=DB.applications.filter(d=>d.avviso===avId&&d.status==='in_graduatoria').sort((a,b)=>b.score-a.score);
     let residuo=av.dotazione;
     DB.applications.filter(d=>d.avviso===avId&&['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status)).forEach(d=>residuo-=d.contributo);
     const data=new Date().toISOString().slice(0,10);
-    doms.forEach(d=>{
+    for(const d of doms){
       if(residuo>=d.contributo){
-        d.status='da_accettare';residuo-=d.contributo;
+        d.status='da_accettare';residuo-=d.contributo;d.scadenza_accettazione=new Date(Date.now()+30*864e5).toISOString().slice(0,10);
         d.verbali.push({tipo:'graduatoria_ammesso',data,punteggio:d.score,firmato:true});
         d.pec_log.push({ogg:'Comunicazione finanziamento — Pos. graduatoria',dest:d.email,data});
-        salvaDocCloud(d.avviso,d.id,'02_Verbali','Verbale_Graduatoria_Ammesso_'+d.id+'.pdf.p7m',null);
+        await creaVerbalePDF(d.id,'graduatoria_ammesso');
       } else {
         d.status='non_ammissibile';
         d.verbali.push({tipo:'graduatoria_non_finanziabile',data,punteggio:d.score,firmato:true});
         d.pec_log.push({ogg:'Non finanziabile per esaurimento budget',dest:d.email,data});
-        salvaDocCloud(d.avviso,d.id,'02_Verbali','Verbale_Graduatoria_NonFinanziabile_'+d.id+'.pdf.p7m',null);
+        await creaVerbalePDF(d.id,'graduatoria_non_finanziabile');
       }
-    });
-    // Salva verbale graduatoria completo
-    salvaDocCloud(avId,'_Avviso','02_Verbali','Verbale_Chiusura_Graduatoria_'+avId+'.pdf.p7m',null);
-    salvaFascicoliLocali(avId);
-    nfy('Graduatoria chiusa — Firmata Aruba ASSR + PEC + Cloud');go('o_istr')})}
+    }
+    nfy('Graduatoria chiusa — PDF verbali generati + Drive + PEC');go('o_istr')})}
 
-// ─── SALVATAGGIO LOCALE FASCICOLI (genera ZIP/downloads strutturati) ───
-function salvaFascicoliLocali(avId){
-  const av=AVVISI.find(a=>a.id===avId);const doms=DB.applications.filter(d=>d.avviso===avId&&d.score);
-  // Genera un file JSON con la struttura completa dei fascicoli
-  const fascicoli=doms.map(d=>({
-    cartella:`${avId}/${d.id}_${d.company.replace(/[^a-zA-Z0-9]/g,'_')}`,
-    domanda:{id:d.id,company:d.company,importo:d.importo,contributo:d.contributo,score:d.score,status:d.status,cup:d.cup},
-    documenti_candidatura:d.docs_caricati||{},
-    verbali:d.verbali||[],
-    accettazione:d.accettazione||null,
-    pec_log:d.pec_log||[],
-    pagamenti:d.pagamenti||[],
-    rendicontazione:d.rendicontazione||[]
-  }));
-  const struttura={
-    avviso:{id:av.id,titolo:av.titolo,fondo:av.fondo,dotazione:av.dotazione},
-    data_export:new Date().toISOString(),
-    n_fascicoli:fascicoli.length,
-    struttura_cartelle:`${avId}/\n${fascicoli.map(f=>`  ${f.cartella}/\n    documenti_candidatura/\n    verbali/\n    pagamenti/\n    rendicontazione/`).join('\n')}`,
-    fascicoli
-  };
-  const blob=new Blob([JSON.stringify(struttura,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download=`Fascicoli_${avId}_${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);
-  nfy('Fascicoli esportati — Struttura cartelle inclusa')}
 
 /*═══════════════════════════════════════════════════════════════════
   OPERATORE: PAGAMENTI (URBI sync + sortable)
@@ -790,15 +832,23 @@ function pgOP(){const doms=myD().filter(d=>['finanziata','in_pagamento','rendico
     ${d.pagamenti.map(p=>`<tr><td style="font-weight:600;font-size:13px">${p.tipo}</td><td style="font-family:var(--mono)">${fE(p.importo)}</td><td style="font-size:12px">${p.det_n||'—'}</td><td style="font-size:12px">${p.mand_n||'—'}</td><td style="font-size:12px">${fD(p.quiet_data)}</td>
     <td>${p.urbi_sync?'<span style="color:var(--success)">⟲✓</span>':`<button class="btn btn-ghost" style="padding:2px 6px;font-size:11px" onclick="syncU('${d.id}','${p.id}')" title="API: GET /api/v1/contabilita/determine?cup=${d.cup}&n_det=${p.det_n||''}">⟲Sync</button>`}</td>
     <td><span class="badge b-${p.stato}">${p.stato}</span></td>
-    <td>${p.stato==='in_verifica'?`<button class="btn btn-ok btn-sm" onclick="eroP('${d.id}','${p.id}')">✓</button>`:''}</td></tr>`).join('')}
+    <td>${p.stato==='in_verifica'?`<button class="btn btn-ok btn-sm" onclick="eroP('${d.id}','${p.id}')">✓</button>`:''} <button class="btn btn-ghost" onclick="generaPagamentoPDF('${d.id}','${p.id}').then(r=>{if(r?.blob)window.open(URL.createObjectURL(r.blob))})" title="Apri PDF pagamento">📄</button></td></tr>`).join('')}
     </tbody></table>
     ${er<d.contributo?`<button class="btn btn-p btn-sm" onclick="newP('${d.id}')" style="margin-top:8px">+ Pagamento</button>`:''}</div></div>`});
   P().innerHTML=h}
 
 function syncU(dId,pId){const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);
-  nfy(`⟲ URBI API (on-demand): GET /api/v1/contabilita/determine?cup=${d.cup}&n_det=${p.det_n} — Richiede client_id M2M da Maggioli`);
-  setTimeout(()=>{if(!p.mand_n)p.mand_n='MAND-'+Math.floor(Math.random()*9e3+1e3);if(!p.mand_data)p.mand_data=new Date().toISOString().slice(0,10);p.urbi_sync=true;nfy('URBI → Acquisiti: mandato '+p.mand_n+', quietanza');go('o_pag')},800)}
-function eroP(dId,pId){const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);p.stato='erogato';if(!p.quiet_data)p.quiet_data=new Date().toISOString().slice(0,10);nfy('Erogato');go('o_pag')}
+  nfy(`⟲ URBI API (on-demand): GET /api/v1/contabilita/determine?cup=${d.cup}&n_det=${p.det_n}`);
+  setTimeout(async()=>{
+    if(!p.mand_n)p.mand_n='MAND-'+Math.floor(Math.random()*9e3+1e3);
+    if(!p.mand_data)p.mand_data=new Date().toISOString().slice(0,10);
+    if(!p.quiet_data)p.quiet_data=new Date().toISOString().slice(0,10);
+    p.urbi_sync=true;
+    // Genera PDF pagamento reale e salva su Drive
+    await generaPagamentoPDF(dId,pId);
+    nfy('URBI → Acquisiti: '+p.mand_n+' · PDF generato e salvato su Drive');go('o_pag')},800)}
+async function eroP(dId,pId){const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);p.stato='erogato';if(!p.quiet_data)p.quiet_data=new Date().toISOString().slice(0,10);
+  await generaPagamentoPDF(dId,pId);nfy('Erogato — PDF generato e salvato su Drive');go('o_pag')}
 function newP(dId){const d=DB.applications.find(x=>x.id===dId);const av=AVVISI.find(a=>a.id===d.avviso);const fasi=av?.config?.fasi_pag||['Pag'];const next=fasi[d.pagamenti.length]||'Pag';const pM=next.match(/(\d+)%/);const sug=pM?Math.round(d.contributo*parseInt(pM[1])/100):0;
   $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:540px" onclick="event.stopPropagation()"><div class="modal-h"><h3>Pagamento — ${d.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b"><div class="row"><div class="col-6"><div class="fg"><label>Fase</label><input type="text" id="np_f" value="${next}"></div></div><div class="col-6"><div class="fg"><label>€</label><input type="number" id="np_i" value="${sug}"></div></div><div class="col-6"><div class="fg"><label>N° Determina</label><input type="text" id="np_d"></div></div><div class="col-6"><div class="fg"><label>Data det.</label><input type="date" id="np_dd"></div></div></div></div><div class="modal-f"><button class="btn btn-p" onclick="crP('${dId}')">CREA</button></div></div></div>`}
 function crP(dId){const d=DB.applications.find(x=>x.id===dId);const pId='P'+Math.floor(Math.random()*9e3+1e3);d.pagamenti.push({id:pId,tipo:$$('np_f')?.value||'Pag',importo:parseFloat($$('np_i')?.value)||0,det_n:$$('np_d')?.value||null,det_data:$$('np_dd')?.value||null,mand_n:null,mand_data:null,quiet_data:null,stato:'in_verifica',urbi_sync:false});
