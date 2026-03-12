@@ -21,7 +21,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}thead th{background:var
 input[type=text],input[type=email],input[type=number],input[type=date],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:14px;color:var(--text);background:#fff;transition:.2s}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(0,102,204,.15)}textarea{resize:vertical;min-height:70px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border:2px solid transparent;border-radius:var(--radius);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:.04em}.btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-p:hover{background:var(--primary-dark)}.btn-s{background:#e6e9f2;color:var(--text);border-color:#d0d5de}.btn-ok{background:var(--success);color:#fff;border-color:var(--success)}.btn-err{background:var(--danger);color:#fff;border-color:var(--danger)}.btn-sm{padding:6px 14px;font-size:12px}.btn-ghost{background:transparent;color:var(--primary);border-color:var(--primary);padding:6px 14px;font-size:12px}.btn-xls{background:#1D6F42;color:#fff;border-color:#1D6F42;padding:8px 16px;font-size:13px}
 .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
-.b-presentata{background:#cfe2ff;color:#084298}.b-ammissibile{background:#d1e7dd;color:#0f5132}.b-non_ammissibile{background:#f8d7da;color:#842029}.b-in_istruttoria{background:#e2d9f3;color:#432874}.b-in_graduatoria{background:#fff3cd;color:#856404}.b-da_accettare{background:#d1ecf1;color:#0c5460}.b-accettata{background:#badbcc;color:#0a3622}.b-da_cup{background:var(--warning-bg);color:var(--warning)}.b-finanziata{background:#badbcc;color:#0a3622}.b-in_pagamento{background:#b6d4fe;color:#052c65}.b-rendicontata{background:#d1ecf1;color:#0c5460}.b-chiusa{background:#e9ecf0;color:#5b6f82}.b-erogato{background:var(--success-bg);color:var(--success)}.b-in_verifica{background:var(--warning-bg);color:var(--warning)}.b-fesr{background:var(--fesr-bg);color:var(--fesr)}.b-fse{background:var(--fse-bg);color:var(--fse)}.b-fsc{background:var(--fsc-bg);color:var(--fsc)}
+.b-presentata{background:#cfe2ff;color:#084298}.b-ammissibile{background:#d1e7dd;color:#0f5132}.b-non_ammissibile{background:#f8d7da;color:#842029}.b-in_istruttoria{background:#e2d9f3;color:#432874}.b-in_graduatoria{background:#fff3cd;color:#856404}.b-da_accettare{background:#d1ecf1;color:#0c5460}.b-accettata{background:#badbcc;color:#0a3622}.b-da_cup{background:var(--warning-bg);color:var(--warning)}.b-finanziata{background:#badbcc;color:#0a3622}.b-in_pagamento{background:#b6d4fe;color:#052c65}.b-rendicontata{background:#d1ecf1;color:#0c5460}.b-chiusa{background:#e9ecf0;color:#5b6f82}.b-rinunciata{background:#f8d7da;color:#842029}.b-erogato{background:var(--success-bg);color:var(--success)}.b-in_verifica{background:var(--warning-bg);color:var(--warning)}.b-fesr{background:var(--fesr-bg);color:var(--fesr)}.b-fse{background:var(--fse-bg);color:var(--fse)}.b-fsc{background:var(--fsc-bg);color:var(--fsc)}
 .prog{height:8px;background:#e9ecf0;border-radius:4px;overflow:hidden}.prog-bar{height:100%;border-radius:4px;transition:width .5s}
 .row{display:flex;gap:20px;flex-wrap:wrap}.col{flex:1;min-width:0}.col-3{flex:0 0 calc(25% - 15px)}.col-4{flex:0 0 calc(33.33% - 14px)}.col-6{flex:0 0 calc(50% - 10px)}
 .stat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;border-top:3px solid var(--primary)}.stat .v{font-size:22px;font-weight:700;color:var(--primary);font-family:var(--mono)}.stat .l{font-size:11px;color:var(--text-sec);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
@@ -51,7 +51,7 @@ input[type=text],input[type=email],input[type=number],input[type=date],select,te
 /*═══════════════════════════════════════════════════════════════════
   DATA MODEL — v5: workflow completo domanda→accettazione→CUP
 ═══════════════════════════════════════════════════════════════════*/
-const ST={presentata:"Presentata",ammissibile:"Ammessa a istruttoria",non_ammissibile:"Non ammissibile",in_istruttoria:"In istruttoria",in_graduatoria:"In graduatoria",da_accettare:"Da accettare (beneficiario)",accettata:"Accettata",da_cup:"In attesa CUP",finanziata:"Finanziata",in_pagamento:"In pagamento",rendicontata:"Rendicontata",chiusa:"Chiusa/Revocata"};
+const ST={presentata:"Presentata",ammissibile:"Ammessa a istruttoria",non_ammissibile:"Non ammissibile",in_istruttoria:"In istruttoria",in_graduatoria:"In graduatoria",da_accettare:"Da accettare (beneficiario)",accettata:"Accettata",da_cup:"In attesa CUP",finanziata:"Finanziata",in_pagamento:"In pagamento",rendicontata:"Rendicontata",chiusa:"Chiusa/Revocata",rinunciata:"Rinunciata"};
 const FN={FESR:{l:"FESR",c:"#1B4F72",cls:"fesr"},FSEplus:{l:"FSE+",c:"#7D3C98",cls:"fse"},FSC:{l:"FSC",c:"#B7950B",cls:"fsc"}};
 const SCLVL=[{l:"Ottimo",f:1},{l:"Buono",f:.8},{l:"Sufficiente",f:.6},{l:"Parz. suff.",f:.4},{l:"Insufficiente",f:.2},{l:"Non presente",f:0}];
 
@@ -278,8 +278,18 @@ function generaPDFperTipo(domId,tipo){
       case 'scoring':const sc=d.istruttoria?.scoring;return generaPDF({...base,titolo:'VERBALE VALUTAZIONE',sottotitolo:d.score+'/100',corpo_sections:[{titolo:'Punteggi',tabella:[['Criterio','Punti','Max'],...(av?.config?.criteri_scoring||[]).map(c=>[c.nome,String(sc?.dettaglio?.[c.id]||0),String(c.max)]),['TOTALE',String(d.score),'100']]}],esito:d.score>=(av?.config?.soglia||60)?'IN GRADUATORIA':'SOTTO SOGLIA',esito_ok:d.score>=(av?.config?.soglia||60)});
       case 'graduatoria_ammesso':return generaPDF({...base,titolo:'AMMISSIONE A FINANZIAMENTO',corpo_sections:[{testo:'La domanda '+d.id+' risulta finanziabile. Contributo: '+fE(d.contributo)}],esito:'FINANZIABILE',esito_ok:true});
       case 'graduatoria_non_finanziabile':return generaPDF({...base,titolo:'NON FINANZIABILITA\'',corpo_sections:[{testo:'Domanda '+d.id+' non finanziabile per esaurimento budget. Punteggio: '+d.score+'/100'}],esito:'NON FINANZIABILE',esito_ok:false});
-      case 'assegnazione_cup':return generaPDF({...base,titolo:'ASSEGNAZIONE CUP',corpo_sections:[{testo:'CUP assegnato: '+(d.cup||'')+'\nRUP Esecuzione: '+(d.rup_esecuzione?.cf?rupN(d.rup_esecuzione.cf):'—')}],esito:'CUP ASSEGNATO',esito_ok:true});
+      case 'graduatoria_chiusura':
+      const gradDoms=DB.applications.filter(x=>x.avviso===d.avviso&&x.score).sort((a,b)=>b.score-a.score);
+      const gradRows=[['#','ID','Richiedente','Score','Contributo','Esito']];
+      gradDoms.forEach((gd,gi)=>{const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','da_cup'].includes(gd.status);const isRin=gd.status==='rinunciata';
+        gradRows.push([String(gi+1),gd.id,gd.company,String(gd.score),fE(gd.contributo),isRin?'RINUNCIA':isFin?'FINANZIATO':'NON FINANZ.'])});
+      pdf=generaPDF({...base,titolo:'VERBALE DI CHIUSURA GRADUATORIA',sottotitolo:'Graduatoria definitiva — Avviso '+av?.id,
+        corpo_sections:[{testo:'Completata la valutazione di tutte le domande pervenute per l\'Avviso '+av?.titolo+' ('+av?.id+'), si procede alla chiusura della graduatoria definitiva.\n\nDotazione: '+fE(av?.dotazione||0)},{titolo:'Graduatoria',tabella:gradRows}],
+        esito:'GRADUATORIA APPROVATA',esito_ok:true});break;
+    case 'assegnazione_cup':return generaPDF({...base,titolo:'ASSEGNAZIONE CUP',corpo_sections:[{testo:'CUP assegnato: '+(d.cup||'')+'\nRUP Esecuzione: '+(d.rup_esecuzione?.cf?rupN(d.rup_esecuzione.cf):'—')}],esito:'CUP ASSEGNATO',esito_ok:true});
       case 'revoca_cup':return generaPDF({...base,titolo:'REVOCA CUP',corpo_sections:[{testo:'Revocato CUP '+(d.cup||'')+'. Disimpegno: '+fE(d.contributo)}],esito:'REVOCATO',esito_ok:false});
+      case 'scorrimento_graduatoria':return generaPDF({...base,titolo:'SCORRIMENTO GRADUATORIA',corpo_sections:[{testo:'Ammesso a finanziamento per scorrimento. Contributo: '+fE(d.contributo)}],esito:'AMMESSO PER SCORRIMENTO',esito_ok:true});
+      case 'rinuncia_finanziamento':return generaPDF({...base,titolo:'DECADENZA/RINUNCIA',corpo_sections:[{testo:'Decaduta dal finanziamento. Quota '+fE(d.contributo)+' disimpegnata.'}],esito:'DECADUTA',esito_ok:false});
       default:return null;
     }
   }catch(e){console.error('PDF gen:',e);return null}}
@@ -314,16 +324,28 @@ function generaPDF(opts){
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const W=210,H=297,M=20,CW=W-2*M;let y=M;
 
-  // Header band
-  doc.setFillColor(0,51,102);doc.rect(0,0,W,32,  'F');
-  doc.setFontSize(10);doc.setTextColor(255,255,255);
-  doc.text(opts.ente_logo||'',M,12);
-  doc.setFontSize(14);doc.text('REGIONE MOLISE',M+8,12);
-  doc.setFontSize(9);doc.text(opts.ente_nome||'Giunta Regionale',M+8,18);
-  doc.setFontSize(8);doc.text((opts.fondo||'')+' — '+(opts.os||''),M+8,24);
-  // Accent line
-  doc.setFillColor(255,193,7);doc.rect(0,32,W,2,'F');
-  y=42;
+  // Header PA istituzionale
+  doc.setFillColor(0,51,102);doc.rect(0,0,W,36,'F');
+  doc.setFillColor(255,193,7);doc.rect(0,36,W,2.5,'F');
+  // Logo placeholder (stemma)
+  doc.setFillColor(192,57,43);doc.roundedRect(M,4,18,22,2,2,'F');
+  doc.setDrawColor(255);doc.setLineWidth(.8);doc.line(M+3,22,M+15,6);
+  doc.setFillColor(255);doc.circle(M+7,10,2,'F');
+  // Intestazione
+  doc.setFontSize(13);doc.setTextColor(255);doc.setFont(undefined,'bold');
+  doc.text('REGIONE MOLISE',M+22,13);
+  doc.setFontSize(8.5);doc.setFont(undefined,'normal');
+  doc.text('Giunta Regionale — Servizio Sistemi Informativi e Transizione al Digitale',M+22,19);
+  // Soggetti esecutori
+  if(opts.ente_nome&&opts.ente_nome!=='Regione Molise'){
+    doc.setFontSize(8);doc.text('Soggetto esecutore: '+opts.ente_nome,M+22,25)}
+  // Fondo badge
+  doc.setFontSize(7.5);doc.setTextColor(255,193,7);
+  doc.text((opts.fondo||'')+' — '+(opts.os||''),M+22,31);
+  // Protocollo
+  doc.setFontSize(7);doc.setTextColor(200);
+  doc.text('Prot. n. '+new Date().getTime().toString().substring(0,10)+'/'+new Date().getFullYear(),W-M-40,31);
+  y=46;
 
   // Title
   doc.setFontSize(16);doc.setTextColor(0,51,102);
@@ -425,6 +447,18 @@ async function creaVerbalePDF(domId,tipo,extraData){
       pdf=generaPDF({...base,titolo:'COMUNICAZIONE SCORRIMENTO GRADUATORIA',
         corpo_sections:[{testo:'A seguito della rinuncia di un beneficiario in posizione superiore, la domanda '+d.id+' di '+d.company+' risulta FINANZIABILE per scorrimento della graduatoria.\n\nContributo: '+fE(d.contributo)}],
         esito:'AMMESSA PER SCORRIMENTO',esito_ok:true});break;
+    case 'rinuncia_finanziamento':
+      pdf=generaPDF({...base,titolo:'COMUNICAZIONE DI DECADENZA/RINUNCIA',
+        corpo_sections:[{testo:'Si comunica che la domanda '+d.id+' di '+d.company+' risulta DECADUTA dal diritto al finanziamento a seguito di rinuncia o mancata accettazione nei termini previsti.\n\nLa quota economica di '+fE(d.contributo)+' viene disimpegnata e resa disponibile per eventuale scorrimento della graduatoria.'}],
+        esito:'DECADUTA — RINUNCIA/SCADENZA',esito_ok:false});break;
+    case 'graduatoria_chiusura':
+      const gradDoms=DB.applications.filter(x=>x.avviso===d.avviso&&x.score).sort((a,b)=>b.score-a.score);
+      const gradRows=[['#','ID','Richiedente','Score','Contributo','Esito']];
+      gradDoms.forEach((gd,gi)=>{const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','da_cup'].includes(gd.status);const isRin=gd.status==='rinunciata';
+        gradRows.push([String(gi+1),gd.id,gd.company,String(gd.score),fE(gd.contributo),isRin?'RINUNCIA':isFin?'FINANZIATO':'NON FINANZ.'])});
+      pdf=generaPDF({...base,titolo:'VERBALE DI CHIUSURA GRADUATORIA',sottotitolo:'Graduatoria definitiva — Avviso '+av?.id,
+        corpo_sections:[{testo:'Completata la valutazione di tutte le domande pervenute per l\'Avviso '+av?.titolo+' ('+av?.id+'), si procede alla chiusura della graduatoria definitiva.\n\nDotazione: '+fE(av?.dotazione||0)},{titolo:'Graduatoria',tabella:gradRows}],
+        esito:'GRADUATORIA APPROVATA',esito_ok:true});break;
     case 'assegnazione_cup':
       pdf=generaPDF({...base,titolo:'COMUNICAZIONE ASSEGNAZIONE CUP',sottotitolo:'CUP: '+(d.cup||''),
         corpo_sections:[{testo:'Si comunica che alla domanda '+d.id+' di '+d.company+' e\' stato assegnato il CUP '+(d.cup||'')+'.\n\nContributo: '+fE(d.contributo)+'\nRUP Esecuzione: '+(d.rup_esecuzione?.cf?rupN(d.rup_esecuzione.cf):'Da nominare')}],
@@ -510,7 +544,7 @@ function pubCard(a){const f=FN[a.fondo];const stM={aperto:{l:'Aperto',c:'var(--s
   <div style="padding:10px 20px 14px;flex:1"><div style="font-size:16px;font-weight:700;margin-bottom:6px">${a.titolo}</div><p style="font-size:13px;color:var(--text-sec);margin-bottom:6px">${a.desc}</p><div style="font-size:12px;color:var(--text-sec)">${fE(a.dotazione)} · ${a.destinatari}</div></div>
   <div style="padding:10px 20px;border-top:1px solid #eee;background:#fafbfc;font-size:13px;color:var(--primary);font-weight:700">Dettaglio →</div></div>`}
 
-function showDetail(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;const f=FN[a.fondo];const eg=getEnte(av?.ente_gestore);
+function showDetail(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;const f=FN[a.fondo];const eg=getEnte(a.ente_gestore);
   $$('publicScreen').innerHTML=`<div style="background:var(--primary-dark);color:#fff;padding:32px 0;border-bottom:3px solid #ffc107"><div class="container">
     <a onclick="renderPublic()" style="color:rgba(255,255,255,.6);font-size:13px;cursor:pointer;display:block;margin-bottom:12px">← Torna</a>
     <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><span class="badge b-${f.cls}" style="font-size:13px;padding:5px 14px">${f.l}</span>${eg?`<span style="font-size:14px">${eg.logo} ${eg.nome}</span>`:''}</div>
@@ -549,7 +583,9 @@ function showLogin(){$$('publicScreen').classList.add('hidden');$$('loginScreen'
 function doLogin(){const cf=($$('l_cf')?.value||'').trim().toUpperCase(),nm=$$('l_nm')?.value||'';if(!cf||!nm){nfy('Compilare','err');return}
   const found=PU.find(u=>u.cf===cf&&u.abilitato);$$('loginScreen').classList.add('hidden');$$('app').classList.remove('hidden');$$('nav').style.display='';$$('userBar').style.display='';
   if(found){CU={...found};$$('roleTag').textContent=found.nome+' ('+found.ruolo.toUpperCase()+')';
-    let nav='<a class="active" onclick="go(\'o_dash\')">Dashboard</a><a onclick="go(\'o_dom\')">Domande</a><a onclick="go(\'o_istr\')">Istruttoria</a><a onclick="go(\'o_pag\')">Pagamenti</a><a onclick="go(\'o_ren\')">Rendicontazione</a><a onclick="go(\'o_mon\')">Monitoraggio</a>';
+    let nav='<a class="active" onclick="go(\'o_dash\')">Dashboard</a>';
+    if(found.ruolo!=='presidente')nav+='<a onclick="go(\'o_dom\')">Domande</a><a onclick="go(\'o_istr\')">Istruttoria</a><a onclick="go(\'o_pag\')">Pagamenti</a><a onclick="go(\'o_ren\')">Rendicontazione</a>';
+    nav+='<a onclick="go(\'o_mon\')">Monitoraggio</a>';
     if(found.ruolo==='admin')nav+='<a onclick="go(\'o_cfg\')">⚙Config</a><a onclick="go(\'o_ut\')">👤Utenze</a>';
     $$('navLinks').innerHTML=nav;go('o_dash');
   } else {CU={cf,nome:nm,ruolo:'beneficiario',bandi:['*']};$$('roleTag').textContent=nm+' — SPID';
@@ -630,26 +666,45 @@ function pgBR(){const cr=DB.applications.filter(a=>a.rendicontazione?.length);le
 function pgOD(){const b=myB(),d=myD(),cnt=s=>d.filter(x=>x.status===s).length;
   P().innerHTML=`<h2 style="margin-bottom:4px">Dashboard</h2><p style="color:var(--text-sec);font-size:13px;margin-bottom:16px">${CU.nome} · ${CU.ruolo.toUpperCase()}</p>
 
+  ${CU.ruolo==='admin'?`
   <div class="card" style="border-left:4px solid ${gdriveToken?'var(--success)':'var(--warning)'}"><div class="card-b" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <div style="font-size:28px">${gdriveToken?'☁️✓':'☁️'}</div>
     <div style="flex:1"><strong>Cloud Storage ${gdriveToken?'— Connesso':'— Non connesso'}</strong>
-      <div style="font-size:13px;color:var(--text-sec)">${gdriveToken?'Documenti salvati su Google Drive (predisposizione cloud Regione Molise)':'Connetti Google Drive per salvare automaticamente documenti, verbali e fascicoli'}</div></div>
-    ${gdriveToken?`<button class="btn btn-ghost" onclick="creaStrutturaCartelle()">🔄 Sincronizza cartelle</button>`
-    :`<button class="btn btn-p btn-sm" onclick="authGDrive()">☁️ Connetti Google Drive</button>`}
-    <div style="font-size:11px;color:var(--text-sec);width:100%;border-top:1px solid var(--border);padding-top:8px;margin-top:4px">
-      <strong>Struttura cartelle:</strong> MoliseAvvisi21-27 / AV-001_Avviso / DOM-001_Beneficiario / {01_Candidatura, 02_Verbali, 03_Accettazione, 04_Pagamenti, 05_Rendicontazione, 06_REGIS_SIL}
-      <br><strong>Futuro:</strong> Cloud PSN Regione Molise (endpoint configurabile in GDRIVE_CONFIG)
-    </div>
+      <div style="font-size:13px;color:var(--text-sec)">${gdriveToken?'Google Drive attivo':'Connetti per archiviazione automatica'}</div></div>
+    ${gdriveToken?'<button class="btn btn-ghost" onclick="creaStrutturaCartelle()">🔄 Sync</button>':'<button class="btn btn-p btn-sm" onclick="authGDrive()">☁️ Connetti Drive</button>'}
   </div></div>
-
   <div class="card" style="border-left:4px solid ${PEC_CONFIG.SERVER_URL?'var(--success)':'var(--warning)'}"><div class="card-b" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <div style="font-size:28px">${PEC_CONFIG.SERVER_URL?'📧✓':'📧'}</div>
-    <div style="flex:1"><strong>PEC Aruba ${PEC_CONFIG.SERVER_URL?'— Connesso ('+PEC_CONFIG.SERVER_URL+')':'— Non configurato'}</strong>
-      <div style="font-size:13px;color:var(--text-sec)">${PEC_CONFIG.SERVER_URL?'Invio PEC reali via Aruba SMTP':'Configura il server PEC per invio reale. Senza server le PEC sono simulate.'}</div></div>
-    <button class="btn ${PEC_CONFIG.SERVER_URL?'btn-ghost':'btn-p btn-sm'}" onclick="setPecServer()">${PEC_CONFIG.SERVER_URL?'⚙ Configura':'📧 Configura PEC'}</button>
+    <div style="flex:1"><strong>PEC Aruba ${PEC_CONFIG.SERVER_URL?'— Connesso':'— Non configurato'}</strong></div>
+    <button class="btn ${PEC_CONFIG.SERVER_URL?'btn-ghost':'btn-p btn-sm'}" onclick="setPecServer()">${PEC_CONFIG.SERVER_URL?'⚙':'📧 Configura PEC'}</button>
   </div></div>
+  `:''}
 
-  <div class="row" style="margin-bottom:16px">${[{l:'Bandi',v:b.length},{l:'Domande',v:d.length},{l:'Da ammettere',v:cnt('presentata'),c:'var(--warning)'},{l:'In istruttoria',v:cnt('ammissibile')+cnt('in_istruttoria'),c:'#7b5ea7'},{l:'Da accettare',v:cnt('da_accettare'),c:'#e67e22'},{l:'Finanziate',v:cnt('finanziata')+cnt('in_pagamento'),c:'var(--success)'}].map(s=>`<div style="flex:1;min-width:100px"><div class="stat" style="border-top-color:${s.c||'var(--primary)'}"><div class="v" style="color:${s.c||'var(--primary)'};font-size:20px">${s.v}</div><div class="l">${s.l}</div></div></div>`).join('')}</div>
+  ${CU.ruolo!=='admin'&&CU.ruolo!=='presidente'&&gdriveToken?`<div class="card" style="border-left:4px solid var(--primary)"><div class="card-b" style="display:flex;align-items:center;gap:12px">
+    <div style="font-size:24px">📂</div>
+    <div style="flex:1"><strong>Archivio documenti su Drive</strong><div style="font-size:13px;color:var(--text-sec)">Accedi alle cartelle dei tuoi bandi</div></div>
+    <a href="https://drive.google.com/drive/search?q=${encodeURIComponent(GDRIVE_CONFIG.ROOT_FOLDER_NAME)}" target="_blank" class="btn btn-p btn-sm">Apri Google Drive →</a>
+  </div></div>`:''}
+
+  <div class="row" style="margin-bottom:16px">${[
+    {l:'Bandi',v:b.length},{l:'Domande',v:d.length},
+    {l:'Da ammettere',v:cnt('presentata'),c:'var(--warning)'},
+    {l:'In istruttoria',v:cnt('ammissibile'),c:'#7b5ea7'},
+    {l:'In graduatoria',v:cnt('in_graduatoria'),c:'var(--primary)'},
+    {l:'Da accettare',v:cnt('da_accettare'),c:'#e67e22'},
+    {l:'Finanziate',v:cnt('finanziata')+cnt('in_pagamento'),c:'var(--success)'},
+    {l:'Con CUP',v:d.filter(x=>x.cup).length,c:'var(--success)'},
+  ].map(s=>`<div style="flex:1;min-width:100px"><div class="stat" style="border-top-color:${s.c||'var(--primary)'}"><div class="v" style="color:${s.c||'var(--primary)'};font-size:18px">${s.v}</div><div class="l">${s.l}</div></div></div>`).join('')}</div>
+
+  <div class="row" style="margin-bottom:16px">${(()=>{
+    const tDot=b.reduce((s,x)=>s+x.dotazione,0);
+    const tConc=d.filter(x=>['finanziata','in_pagamento','rendicontata','da_accettare','da_cup'].includes(x.status)).reduce((s,x)=>s+x.contributo,0);
+    const tErog=d.reduce((s,x)=>s+x.pagamenti.filter(p=>p.stato==='erogato').reduce((ss,p)=>ss+p.importo,0),0);
+    const nSil=d.reduce((s,x)=>s+(x.rendicontazione||[]).filter(r=>r.sil).length,0);
+    return [{l:'Dotazione totale',v:fE(tDot),c:'var(--primary)'},{l:'Concesso',v:fE(tConc)+' ('+(tDot?(tConc/tDot*100).toFixed(1)+'%':'—')+')',c:'#1B4F72'},{l:'Erogato',v:fE(tErog)+' ('+(tConc?(tErog/tConc*100).toFixed(1)+'%':'—')+')',c:'var(--success)'},{l:'SIL inviati',v:nSil,c:'var(--success)'}].map(s=>`<div style="flex:1;min-width:140px"><div class="stat" style="border-top-color:${s.c||'var(--primary)'}"><div class="v" style="color:${s.c||'var(--primary)'};font-size:16px">${s.v}</div><div class="l">${s.l}</div></div></div>`).join('')})()}</div>
+
+  <div class="row" style="margin-bottom:16px">${b.map(av=>{const f=FN[av.fondo];const nd=d.filter(x=>x.avviso===av.id).length;const nc=d.filter(x=>x.avviso===av.id&&['finanziata','in_pagamento','rendicontata'].includes(x.status)).reduce((s,x)=>s+x.contributo,0);
+    return `<div style="flex:1;min-width:200px"><div class="card" style="margin:0;border-left:3px solid ${f?.c||'#06c'}"><div class="card-b" style="padding:12px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="badge b-${f?.cls}">${f?.l}</span><span style="font-size:11px;color:var(--text-sec)">${nd} dom.</span></div><div style="font-size:13px;font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${av.titolo}</div><div style="font-size:12px;color:var(--text-sec)">Dot. ${fE(av.dotazione)} · Conc. ${fE(nc)}</div><div class="prog" style="margin-top:6px"><div class="prog-bar" style="width:${av.dotazione?(nc/av.dotazione*100):0}%;background:${f?.c||'var(--primary)'}"></div></div></div></div></div>`}).join('')}</div>
   <div class="card"><div class="card-h">Pipeline</div><div class="card-b">${Object.entries(ST).map(([k,v])=>{const c=cnt(k);return c?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span class="badge b-${k}" style="min-width:110px;font-size:10px">${v}</span><div class="prog" style="flex:1;height:8px"><div class="prog-bar" style="width:${c/d.length*100}%;background:var(--primary)"></div></div><strong>${c}</strong></div>`:''}).join('')}</div></div>`}
 
 /*═══════════════════════════════════════════════════════════════════
@@ -843,15 +898,17 @@ function pgOI(){const bandi=myB().filter(b=>b.config);let h=`<h2 style="margin-b
       let cum=budgetUsato;
       ranked.forEach((d,i)=>{
         const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status);
-        if(!isFin&&d.status==='in_graduatoria') cum+=d.contributo;
+        const isRin=d.status==='rinunciata'||d.status==='chiusa';
+        if(!isFin&&!isRin&&d.status==='in_graduatoria') cum+=d.contributo;
         const over=cum>av.dotazione;const nD=Object.keys(d.docs_caricati||{}).length;
-        h+=`<tr style="${over&&d.status==='in_graduatoria'?'background:var(--danger-bg)':''}">
+        const rowBg=isRin?'background:#f8d7da;opacity:.7;text-decoration:line-through':isFin?'background:#d1e7dd':(over&&d.status==='in_graduatoria'?'background:var(--danger-bg)':'');
+        h+=`<tr style="${rowBg}">
         <td style="font-weight:700">${i+1}°</td><td>${d.id}</td><td>${d.company}</td>
         <td><button class="btn btn-ghost" onclick="viewDocs('${d.id}')">📁${nD}</button></td>
         <td style="font-family:var(--mono);font-size:16px;font-weight:700;color:${d.score>=sc.soglia?'var(--success)':'var(--danger)'}">${d.score}</td>
         <td style="font-family:var(--mono)">${fE(d.contributo)}</td>
-        <td style="font-family:var(--mono);font-size:12px;color:${over?'var(--danger)':'var(--text-sec)'}">${isFin||d.status==='in_graduatoria'?fE(cum):'—'}</td>
-        <td>${isFin?'<span style="color:var(--success);font-weight:700">✓ SI</span>':d.status==='in_graduatoria'?(over?'<span style="color:var(--danger);font-weight:700">✕ NO (budget)</span>':'<span style="color:var(--primary)">● In attesa chiusura</span>'):'—'}</td>
+        <td style="font-family:var(--mono);font-size:12px;color:${over?'var(--danger)':'var(--text-sec)'}">${isRin?'—':(isFin||d.status==='in_graduatoria'?fE(cum):'—')}</td>
+        <td>${isRin?'<span style="color:var(--danger);font-weight:700">↩ RINUNCIA</span>':isFin?'<span style="color:var(--success);font-weight:700">✓ FINANZIATO</span>':d.status==='in_graduatoria'?(over?'<span style="color:var(--danger);font-weight:700">✕ NON RIENTRA NEL BUDGET</span>':'<span style="color:var(--primary)">● In attesa</span>'):'—'}</td>
         <td><span class="badge b-${d.status}">${ST[d.status]||d.status}</span></td></tr>`});
       h+=`</tbody></table>`;setTimeout(()=>makeSortable('tI'+bi),100);
 
@@ -926,27 +983,8 @@ function chiudiGraduatoria(avId){
     </div></div></div>`}
 
 function downloadVerbale(avId){
-  const av=AVVISI.find(a=>a.id===avId);const eg=getEnte(av?.ente_gestore);const fondo=FN[av.fondo];
-  const doms=DB.applications.filter(d=>d.avviso===avId&&d.score).sort((a,b)=>b.score-a.score);
-  let budget=av.dotazione;let usato=0;
-  DB.applications.filter(d=>d.avviso===avId&&['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status)).forEach(d=>usato+=d.contributo);
-  let residuo=budget-usato;
-  // Genera PDF reale della graduatoria
-  const rows=[['#','ID','Richiedente','Score','Contributo','Finanziab.']];
-  doms.forEach((d,i)=>{const isFin=['finanziata','in_pagamento','rendicontata','da_accettare','accettata','da_cup'].includes(d.status);
-    const fin=isFin||(d.status==='in_graduatoria'&&residuo>=d.contributo);
-    if(d.status==='in_graduatoria'&&fin)residuo-=d.contributo;
-    rows.push([String(i+1),d.id,d.company,String(d.score),fE(d.contributo),fin?'SI':'NO'])});
-  const pdf=generaPDF({
-    titolo:'VERBALE DI CHIUSURA GRADUATORIA',sottotitolo:'Avviso: '+av.titolo+' ('+av.id+')',
-    avviso:av.id+' — '+av.titolo,domanda:'Tutti',beneficiario:'—',piva:'—',email:'—',
-    importo:fE(av.dotazione),contributo:'Budget residuo: '+fE(residuo),
-    ente_logo:eg?.logo||'',ente_nome:eg?.nome||'',fondo:fondo?.l,os:av.os,
-    rup_nome:rupN(av.config?.rup),firma_data:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'}),
-    corpo_sections:[{titolo:'Graduatoria definitiva',tabella:rows}],
-    esito:'GRADUATORIA APPROVATA',esito_ok:true});
-  const blob=pdf.output('blob');window.open(URL.createObjectURL(blob),'_blank');
-  nfy('PDF graduatoria generato')}
+  const doms=DB.applications.filter(d=>d.avviso===avId&&d.score);
+  if(doms.length)creaVerbalePDF(doms[0].id,'graduatoria_chiusura')}
 
 function confermaChiusura(avId){
   closeModal();
@@ -989,17 +1027,94 @@ function pgOP(){const doms=myD().filter(d=>['finanziata','in_pagamento','rendico
     ${er<d.contributo?`<button class="btn btn-p btn-sm" onclick="newP('${d.id}')" style="margin-top:8px">+ Pagamento</button>`:''}</div></div>`});
   P().innerHTML=h}
 
-function syncU(dId,pId){const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);
-  nfy(`⟲ URBI API (on-demand): GET /api/v1/contabilita/determine?cup=${d.cup}&n_det=${p.det_n}`);
-  setTimeout(async()=>{
-    if(!p.mand_n)p.mand_n='MAND-'+Math.floor(Math.random()*9e3+1e3);
-    if(!p.mand_data)p.mand_data=new Date().toISOString().slice(0,10);
-    if(!p.quiet_data)p.quiet_data=new Date().toISOString().slice(0,10);
-    p.urbi_sync=true;
-    // Genera PDF pagamento reale e salva su Drive
-    await generaPagamentoPDF(dId,pId);
-    dualPec(d,'Pagamento '+p.tipo+' — Det.'+p.det_n+' Mand.'+p.mand_n+' Quiet.'+fD(p.quiet_data));
-    nfy('URBI → PDF + PEC beneficiario + archiviato');go('o_pag')},800)}
+// ═══════════════════════════════════════════════════════════════
+// INTEGRAZIONE URBI (Maggioli) — Contabilità enti PA
+// ═══════════════════════════════════════════════════════════════
+// MODALITÀ: API REST (preferita) | SOAP | CSV | Vista DB
+// AUTENTICAZIONE: OAuth2 M2M (Machine-to-Machine) con client_id/secret
+// PROFILO RICHIESTO: utente applicativo M2M (NON utenza web umana)
+//   → Richiedere a Maggioli/referente IT regionale la creazione di:
+//     1. client_id + client_secret per API REST
+//     2. Profilo: "Consultazione contabilità" (sola lettura)
+//     3. Ambito: determine, mandati, quietanze, CIG/CUP
+//
+// ENDPOINT PRODUZIONE: https://urbi.regione.molise.it/api/v1/
+// TOKEN:  POST /oauth/token  {grant_type:"client_credentials", client_id, client_secret}
+// ═══════════════════════════════════════════════════════════════
+const URBI_CONFIG={
+  BASE_URL:'',  // Es: https://urbi.regione.molise.it/api/v1
+  CLIENT_ID:'',
+  CLIENT_SECRET:'',
+  SIMULAZIONE:true, // true=dati mock, false=chiamate reali
+};
+let urbiToken=null;
+
+async function urbiAuth(){
+  if(URBI_CONFIG.SIMULAZIONE)return true;
+  if(!URBI_CONFIG.BASE_URL||!URBI_CONFIG.CLIENT_ID){nfy('URBI non configurato — usa Configurazione','err');return false}
+  try{
+    const r=await fetch(URBI_CONFIG.BASE_URL+'/oauth/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:`grant_type=client_credentials&client_id=${URBI_CONFIG.CLIENT_ID}&client_secret=${URBI_CONFIG.CLIENT_SECRET}`});
+    const j=await r.json();urbiToken=j.access_token;return!!urbiToken;
+  }catch(e){nfy('URBI auth fallita: '+e.message,'err');return false}}
+
+// QUERY 1: Determina di liquidazione per CUP
+// GET /contabilita/determine?cup=XXXXX&anno=2025
+// Risposta: [{n_determina, data, oggetto, importo, beneficiario, cig, cup}]
+
+// QUERY 2: Mandato di pagamento associato a determina
+// GET /contabilita/mandati?n_determina=DET-2025-0142&anno=2025
+// Risposta: [{n_mandato, data, importo, beneficiario, stato}]
+
+// QUERY 3: Quietanza (conferma incasso) per mandato
+// GET /contabilita/quietanze?n_mandato=MAND-0087&anno=2025
+// Risposta: [{n_quietanza, data, importo, tesoriere}]
+
+async function syncU(dId,pId){
+  const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);
+  const anno=new Date().getFullYear();
+  nfy(`⟲ URBI: interrogazione determina ${p.det_n} per CUP ${d.cup}...`);
+
+  if(URBI_CONFIG.SIMULAZIONE){
+    // === SIMULAZIONE: genera dati mock realistici ===
+    setTimeout(async()=>{
+      // Mock determina
+      if(!p.det_data)p.det_data=new Date().toISOString().slice(0,10);
+      // Mock mandato (come se URBI rispondesse)
+      p.mand_n=p.mand_n||'MAND-'+anno+'-'+Math.floor(Math.random()*9e3+1e3);
+      p.mand_data=p.mand_data||new Date().toISOString().slice(0,10);
+      // Mock quietanza
+      p.quiet_data=p.quiet_data||new Date().toISOString().slice(0,10);
+      p.urbi_sync=true;p.urbi_ts=new Date().toISOString();
+      // Genera documenti e archivia
+      await generaPagamentoPDF(dId,pId);
+      // PEC solo quando tutti e 3 presenti (det+mandato+quietanza)
+      if(p.det_n&&p.mand_n&&p.quiet_data){
+        dualPec(d,`Erogazione ${p.tipo} — Det.${p.det_n} Mand.${p.mand_n} Quiet.${fD(p.quiet_data)} — CUP ${d.cup}`)}
+      nfy('✅ URBI sync (simulazione) — Det+Mand+Quiet acquisiti + PDF + PEC + Drive');go('o_pag')
+    },1200);
+  } else {
+    // === PRODUZIONE: chiamate API reali ===
+    if(!await urbiAuth()){nfy('Auth URBI fallita','err');return}
+    try{
+      const hd={'Authorization':'Bearer '+urbiToken,'Accept':'application/json'};
+      // 1. Determina
+      const rDet=await fetch(`${URBI_CONFIG.BASE_URL}/contabilita/determine?cup=${d.cup}&n_determina=${p.det_n}&anno=${anno}`,{headers:hd});
+      const det=await rDet.json();if(det?.length){p.det_data=det[0].data;p.det_importo_urbi=det[0].importo}
+      // 2. Mandato
+      const rMand=await fetch(`${URBI_CONFIG.BASE_URL}/contabilita/mandati?n_determina=${p.det_n}&anno=${anno}`,{headers:hd});
+      const mand=await rMand.json();if(mand?.length){p.mand_n=mand[0].n_mandato;p.mand_data=mand[0].data}
+      // 3. Quietanza
+      if(p.mand_n){
+        const rQuiet=await fetch(`${URBI_CONFIG.BASE_URL}/contabilita/quietanze?n_mandato=${p.mand_n}&anno=${anno}`,{headers:hd});
+        const quiet=await rQuiet.json();if(quiet?.length){p.quiet_data=quiet[0].data}}
+      p.urbi_sync=true;p.urbi_ts=new Date().toISOString();
+      await generaPagamentoPDF(dId,pId);
+      if(p.det_n&&p.mand_n&&p.quiet_data){
+        dualPec(d,`Erogazione ${p.tipo} — Det.${p.det_n} Mand.${p.mand_n} Quiet.${fD(p.quiet_data)} — CUP ${d.cup}`)}
+      nfy('✅ URBI sync REALE — dati acquisiti');go('o_pag')
+    }catch(e){nfy('Errore URBI: '+e.message,'err')}}
+}
 async function eroP(dId,pId){const d=DB.applications.find(x=>x.id===dId);const p=d.pagamenti.find(x=>x.id===pId);p.stato='erogato';if(!p.quiet_data)p.quiet_data=new Date().toISOString().slice(0,10);
   await generaPagamentoPDF(dId,pId);nfy('Erogato — PDF generato e salvato su Drive');go('o_pag')}
 function newP(dId){const d=DB.applications.find(x=>x.id===dId);const av=AVVISI.find(a=>a.id===d.avviso);const fasi=av?.config?.fasi_pag||['Pag'];const next=fasi[d.pagamenti.length]||'Pag';const pM=next.match(/(\d+)%/);const sug=pM?Math.round(d.contributo*parseInt(pM[1])/100):0;
@@ -1040,11 +1155,85 @@ function downloadSil(dId,rId){
   const a=document.createElement('a');a.href=url;a.download=`SIL_${d.cup}_${rId}.json`;a.click();URL.revokeObjectURL(url);
   nfy('Scaricato: SIL_'+d.cup+'_'+rId+'.json')}
 
+// ═══════════════════════════════════════════════════════════════
+// INTEGRAZIONE REGIS Coesione (MEF/RGS) — Sistema Informatico Locale
+// ═══════════════════════════════════════════════════════════════
+// REGIS è il sistema unitario di monitoraggio della coesione (MEF)
+// Le Regioni inviano dati tramite "SIL" (Sistema Informativo Locale)
+// che produce pacchetti di strutture PUC (Progetto Unico di Coesione)
+//
+// PROTOCOLLO: Web Service SOAP / REST (in migrazione)
+// ENDPOINT:   https://regis.rgs.mef.gov.it/ws/sil/v4
+// AUTH:       Certificato digitale + credenziali istituzionali
+//             → Richiedere accesso a: supportoregis@rgs.mef.gov.it
+//             → Referente regionale AdG (Autorità di Gestione)
+//
+// STRUTTURE PUC v4.0 (prima trasmissione = 10 strutture):
+//   AP00 - Anagrafica progetto (CUP, titolo, importi)
+//   AP02 - Informazioni generali
+//   AP03 - Classificazione (CUP, ATECO, settore)
+//   AP04 - Programma (fondo, asse, OS)
+//   AP05 - Localizzazione (regione, comune)
+//   SC00 - Soggetti correlati (beneficiario, CF/PIVA)
+//   FN00 - Piano finanziario
+//   FN01 - Avanzamento finanziario (pagamenti, impegni)
+//   IN06 - Indicatori (RCO/RCR output/result)
+//   IP00 - Iter procedurale (concessione, SAL, collaudo)
+//
+// TRASMISSIONI SUCCESSIVE (aggiornamenti): solo FN01 + IP00
+// ═══════════════════════════════════════════════════════════════
+const REGIS_CONFIG={
+  ENDPOINT:'',  // Es: https://regis.rgs.mef.gov.it/ws/sil/v4
+  CERT_PATH:'', // Path al certificato .p12 per auth
+  USERNAME:'',
+  PASSWORD:'',
+  SIMULAZIONE:true,
+};
+
 function sendSil(dId,rId){const d=DB.applications.find(x=>x.id===dId);if(!d.cup){nfy('Serve CUP','err');return}
   const r=d.rendicontazione.find(x=>x.id===rId);const isFirst=!d.rendicontazione.some(x=>x.sil&&x.id!==rId);
   r.sil=true;r.sil_data=new Date().toISOString().slice(0,10);r.sil_pkg=generaSilPkg(d,rId);
+  const strutt=isFirst?'AP00+AP02+AP03+AP04+AP05+SC00+FN00+FN01+IN06+IP00':'FN01+IP00';
+
+  // 1. Salva JSON su Drive
   salvaDocCloud(d.avviso,d.id,'06_REGIS_SIL','SIL_'+d.cup+'_'+rId+'_'+r.sil_data+'.json',JSON.stringify(r.sil_pkg));
-  nfy(`SIL → REGIS · CUP ${d.cup} · ${isFirst?'10':'2'} strutture PUC · Salvato cloud`);go('o_ren')}
+
+  // 2. Genera e archivia Excel database su Drive
+  const xlsData=[{name:'SIL_'+d.cup,data:[{
+    CUP:d.cup,Domanda:d.id,Beneficiario:d.company,PIVA:d.piva,
+    Contributo:d.contributo,Importo_Rendicontato:r.rend,Importo_Validato:r.valid,
+    Strutture_PUC:strutt,Data_Invio:r.sil_data,
+    Totale_Pagato:d.pagamenti.filter(p=>p.stato==='erogato').reduce((s,p)=>s+p.importo,0),
+    Fondo:d.fondo,Avviso:d.avviso
+  }]}];
+  // Excel locale
+  const wb=XLSX.utils.book_new();xlsData.forEach(x=>{XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(x.data),x.name.substring(0,31))});
+  const xlsBlob=new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  // Archivia su Drive
+  if(gdriveToken){(async()=>{
+    try{
+      const rootId=gdriveRootId||await trovaOCreaCartella(GDRIVE_CONFIG.ROOT_FOLDER_NAME,null);
+      const av=AVVISI.find(a=>a.id===d.avviso);
+      const avFid=await trovaOCreaCartella(av.id+'_'+(av?.titolo||'').replace(/[^a-zA-Z0-9]/g,'_').substring(0,30),rootId);
+      const dFid=await trovaOCreaCartella(d.id+'_'+d.company.replace(/[^a-zA-Z0-9]/g,'_'),avFid);
+      const sFid=await trovaOCreaCartella('06_REGIS_SIL',dFid);
+      const meta={name:'REGIS_SIL_'+d.cup+'_'+r.sil_data+'.xlsx',parents:[sFid]};
+      const form=new FormData();form.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));form.append('file',xlsBlob);
+      await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Authorization':'Bearer '+gdriveToken},body:form});
+      nfy('☁️ Excel REGIS archiviato su Drive');
+    }catch(e){console.error(e)}
+  })()}
+
+  if(REGIS_CONFIG.SIMULAZIONE){
+    nfy(`✅ SIL → REGIS (simulazione) · CUP ${d.cup} · ${isFirst?'10':'2'} strutture PUC · JSON+Excel archiviati`);
+  } else {
+    // PRODUZIONE: invio SOAP/REST a REGIS
+    // Il backend pec_server.py (o un servizio dedicato) dovrebbe gestire
+    // la chiamata SOAP con certificato digitale verso l'endpoint REGIS
+    nfy(`⏳ Invio a REGIS... (endpoint: ${REGIS_CONFIG.ENDPOINT})`);
+    // fetch al backend: POST /api/regis/send {cup, sil_pkg, isFirst}
+  }
+  go('o_ren')}
 
 function newR(dId){const d=DB.applications.find(x=>x.id===dId);const av=AVVISI.find(a=>a.id===d.avviso);const fasi=av?.config?.fasi_ren||['Rendiconto'];
   d.rendicontazione.push({id:'R'+Math.floor(Math.random()*9e3+1e3),fase:fasi[d.rendicontazione.length]||'Rendiconto',rend:0,valid:0,data:new Date().toISOString().slice(0,10),stato:'in_verifica',sil:false,sil_data:null,sil_pkg:null});nfy('Fase creata');go('o_ren')}
@@ -1069,7 +1258,18 @@ function pgOM(){const b=myB(),d=myD();
     {l:'CUP generati',v:d.filter(x=>x.cup).length,c:'var(--primary)'},
     {l:'SIL inviati',v:d.reduce((s,x)=>s+(x.rendicontazione||[]).filter(r=>r.sil).length,0),c:'var(--success)'}
   ].map(s=>`<div style="flex:1;min-width:120px"><div class="stat" style="border-top-color:${s.c||'var(--primary)'}"><div class="v" style="color:${s.c||'var(--primary)'};font-size:16px">${s.v}</div><div class="l">${s.l}</div></div></div>`).join('')}</div>
-  <div class="tabs"><button class="active" onclick="mT(this,'mF')">Fondi</button><button onclick="mT(this,'mC')">CUP</button><button onclick="mT(this,'mR')">RUP</button></div>
+
+  <div class="row" style="margin-bottom:16px">${(()=>{
+    const nPagTot=d.reduce((s,x)=>s+x.pagamenti.length,0);
+    const nPagEr=d.reduce((s,x)=>s+x.pagamenti.filter(p=>p.stato==='erogato').length,0);
+    const nRen=d.reduce((s,x)=>s+(x.rendicontazione||[]).length,0);
+    const scadBandi=b.filter(x=>{const gg=Math.ceil((new Date(x.chiusura)-new Date())/864e5);return gg>0&&gg<60});
+    return `<div class="col-3"><div class="card" style="margin:0;border-top:3px solid var(--primary)"><div class="card-b" style="padding:14px"><div style="font-size:11px;color:var(--text-sec);text-transform:uppercase">Pagamenti</div><div style="font-size:20px;font-weight:700;font-family:var(--mono)">${nPagEr}/${nPagTot}</div><div class="prog" style="margin-top:6px"><div class="prog-bar" style="width:${nPagTot?nPagEr/nPagTot*100:0}%;background:var(--success)"></div></div></div></div></div>
+    <div class="col-3"><div class="card" style="margin:0;border-top:3px solid #7D3C98"><div class="card-b" style="padding:14px"><div style="font-size:11px;color:var(--text-sec);text-transform:uppercase">Rendicontazioni</div><div style="font-size:20px;font-weight:700;font-family:var(--mono)">${nRen}</div><div style="font-size:12px;color:var(--text-sec)">fasi avviate</div></div></div></div>
+    <div class="col-3"><div class="card" style="margin:0;border-top:3px solid var(--warning)"><div class="card-b" style="padding:14px"><div style="font-size:11px;color:var(--text-sec);text-transform:uppercase">Bandi in scadenza</div><div style="font-size:20px;font-weight:700;font-family:var(--mono);color:var(--warning)">${scadBandi.length}</div>${scadBandi.length?`<div style="font-size:11px;color:var(--warning)">${scadBandi.map(x=>x.id+' '+Math.ceil((new Date(x.chiusura)-new Date())/864e5)+'gg').join(', ')}</div>`:''}</div></div></div>
+    <div class="col-3"><div class="card" style="margin:0;border-top:3px solid var(--success)"><div class="card-b" style="padding:14px"><div style="font-size:11px;color:var(--text-sec);text-transform:uppercase">Velocita media</div><div style="font-size:20px;font-weight:700;font-family:var(--mono)">${(()=>{const scored=d.filter(x=>x.score&&x.submittedAt&&x.istruttoria?.scoring?.data);if(!scored.length)return '—';const avg=scored.reduce((s,x)=>s+Math.ceil((new Date(x.istruttoria.scoring.data)-new Date(x.submittedAt))/864e5),0)/scored.length;return Math.round(avg)+'gg'})()}</div><div style="font-size:12px;color:var(--text-sec)">istruttoria media</div></div></div></div>`})()}</div>
+
+  <div class="tabs"><button class="active" onclick="mT(this,'mF')">Fondi</button><button onclick="mT(this,'mC')">CUP</button><button onclick="mT(this,'mR')">RUP</button><button onclick="mT(this,'mA')">Andamento</button></div>
   <div id="mF">${fS.map(fs=>`<div class="card" style="border-left:4px solid ${fs.f.c}"><div class="card-b"><strong style="color:${fs.f.c}">${fs.f.l}</strong> — ${fE(fs.dot)}
   ${[{l:'Concesso',v:fs.conc},{l:'Erogato',v:fs.er}].map(x=>`<div style="margin-top:6px"><div style="display:flex;justify-content:space-between;font-size:12px"><span>${x.l}</span><span>${fE(x.v)} ${fs.dot?(x.v/fs.dot*100).toFixed(1)+'%':''}</span></div><div class="prog"><div class="prog-bar" style="width:${fs.dot?(x.v/fs.dot*100):0}%;background:${fs.f.c}"></div></div></div>`).join('')}</div></div>`).join('')}</div>
   <div id="mC" style="display:none"><div class="card"><div class="card-b" style="overflow-x:auto"><table id="tMC"><thead><tr><th>CUP</th><th>ID</th><th>Beneficiario</th><th>Fondo</th><th>Contributo</th><th>Erogato</th><th>RUP</th><th>Stato</th></tr></thead><tbody>
@@ -1077,9 +1277,38 @@ function pgOM(){const b=myB(),d=myD();
   </tbody></table></div></div></div>
   <div id="mR" style="display:none"><div class="card"><div class="card-b" style="overflow-x:auto"><table id="tMR"><thead><tr><th>RUP</th><th>Progetti</th><th>Concesso</th><th>Erogato</th></tr></thead><tbody>
   ${(()=>{const rm={};d.forEach(x=>{const cf=x.rup_aggiudicazione?.cf||'N/A';if(!rm[cf])rm[cf]={n:rupN(cf),nd:0,c:0,e:0};rm[cf].nd++;if(['finanziata','in_pagamento','rendicontata'].includes(x.status))rm[cf].c+=x.contributo;rm[cf].e+=x.pagamenti.filter(p=>p.stato==='erogato').reduce((s,p)=>s+p.importo,0)});return Object.values(rm).map(r=>`<tr><td style="font-weight:600">${r.n}</td><td>${r.nd}</td><td style="font-family:var(--mono)">${fE(r.c)}</td><td style="font-family:var(--mono);color:var(--success)">${fE(r.e)}</td></tr>`).join('')})()}
-  </tbody></table></div></div></div>`;
-  setTimeout(()=>{makeSortable('tMC');makeSortable('tMR')},100)}
-function mT(b,id){document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');['mF','mC','mR'].forEach(t=>{const e=$$(t);if(e)e.style.display=t===id?'':'none'})}
+  </tbody></table></div></div></div>
+
+  <div id="mA" style="display:none">
+    <div class="card"><div class="card-h">📈 Andamento Pagamenti e Cronoprogramma</div><div class="card-b"><div style="height:280px"><canvas id="chAndamento"></canvas></div></div></div>
+    <div class="row">${fS.map(fs=>{const scadGG=fs.nb?Math.ceil((new Date(myB().find(x=>x.fondo===fs.k)?.chiusura||Date.now())-new Date())/864e5):0;
+      return `<div class="col"><div class="card" style="border-left:3px solid ${fs.f.c}"><div class="card-h">${fs.f.l} — Dettaglio</div><div class="card-b">
+      <table style="font-size:13px"><tr><td>Dotazione</td><td style="font-family:var(--mono);font-weight:700">${fE(fs.dot)}</td></tr>
+      <tr><td>N. Avvisi</td><td>${fs.nb}</td></tr>
+      <tr><td>Domande</td><td>${fs.na}</td></tr>
+      <tr><td>Concesso</td><td style="font-family:var(--mono)">${fE(fs.conc)} <span style="color:var(--text-sec)">(${fs.dot?(fs.conc/fs.dot*100).toFixed(1):0}%)</span></td></tr>
+      <tr><td>Erogato</td><td style="font-family:var(--mono);color:var(--success)">${fE(fs.er)} <span style="color:var(--text-sec)">(${fs.conc?(fs.er/fs.conc*100).toFixed(1):0}%)</span></td></tr>
+      <tr><td>Da erogare</td><td style="font-family:var(--mono);color:var(--danger)">${fE(fs.conc-fs.er)}</td></tr>
+      <tr><td>Residuo dotazione</td><td style="font-family:var(--mono)">${fE(fs.dot-fs.conc)}</td></tr>
+      </table></div></div></div>`}).join('')}</div>
+  </div>`;
+
+  setTimeout(()=>{
+    makeSortable('tMC');makeSortable('tMR');
+    const chA=document.getElementById('chAndamento');
+    if(chA){
+      const mesi=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+      const pagPerMese=new Array(12).fill(0);const concPerMese=new Array(12).fill(0);
+      d.forEach(x=>{x.pagamenti.forEach(p=>{if(p.quiet_data){const m=new Date(p.quiet_data).getMonth();pagPerMese[m]+=p.importo}});
+        if(['finanziata','in_pagamento','rendicontata','da_accettare','da_cup'].includes(x.status)){const m=new Date(x.submittedAt).getMonth();concPerMese[m]+=x.contributo}});
+      let cumPag=0,cumConc=0;const pagCum=pagPerMese.map(v=>{cumPag+=v;return cumPag/1e6});const concCum=concPerMese.map(v=>{cumConc+=v;return cumConc/1e6});
+      new Chart(chA,{type:'line',data:{labels:mesi,datasets:[
+        {label:'Concesso cumulativo (M€)',data:concCum,borderColor:'#1B4F72',backgroundColor:'rgba(27,79,114,.1)',fill:true,tension:.3},
+        {label:'Erogato cumulativo (M€)',data:pagCum,borderColor:'#008758',backgroundColor:'rgba(0,135,88,.1)',fill:true,tension:.3}
+      ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true}}},scales:{y:{ticks:{callback:v=>v.toFixed(1)+'M'}}}}})
+    }
+  },100)}
+function mT(b,id){document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');['mF','mC','mR','mA'].forEach(t=>{const e=$$(t);if(e)e.style.display=t===id?'':'none'})}
 function xlsM(){const d=myD();
   exportXls('Monitoraggio_'+new Date().toISOString().slice(0,10),[
     {name:'Fondi',data:Object.entries(FN).map(([k,f])=>{const apps=d.filter(x=>x.fondo===k);const dot=myB().filter(x=>x.fondo===k).reduce((s,x)=>s+x.dotazione,0);return {Fondo:f.l,Dotazione:dot,Concesso:apps.filter(x=>['finanziata','in_pagamento','rendicontata'].includes(x.status)).reduce((s,x)=>s+x.contributo,0),Erogato:apps.reduce((s,x)=>s+x.pagamenti.filter(p=>p.stato==='erogato').reduce((ss,p)=>ss+p.importo,0),0)}})},
@@ -1097,6 +1326,40 @@ function pgOC(){if(CU?.ruolo!=='admin'){P().innerHTML='<div class="callout err">
   <div class="card"><div class="card-h">Avvisi</div><div class="card-b" style="overflow-x:auto"><table><thead><tr><th>ID</th><th>Titolo</th><th>Fondo</th><th>Ente</th><th>Stato</th><th>Dotazione</th><th>Azioni</th></tr></thead><tbody>
   ${AVVISI.map(a=>`<tr><td><strong>${a.id}</strong></td><td>${a.titolo}</td><td><span class="badge b-${FN[a.fondo]?.cls}">${FN[a.fondo]?.l}</span></td><td style="font-size:12px">${enteN(a.ente_gestore)}</td><td>${a.stato}</td><td style="font-family:var(--mono)">${fE(a.dotazione)}</td><td><select onchange="if(this.value==='aperto'){richPubblica('${a.id}');this.value=''}else if(this.value){AVVISI.find(x=>x.id==='${a.id}').stato=this.value;nfy('Stato: '+this.value);go('o_cfg')}" style="font-size:12px"><option>Cambia</option><option value="bozza">Bozza</option><option value="aperto">Pubblica (richiede determina)</option><option value="chiuso">Chiudi</option></select></td></tr>`).join('')}
   </tbody></table></div></div>
+
+  <div class="row" style="margin-bottom:16px">
+  <div class="col-6"><div class="card" style="border-left:4px solid #e67e22"><div class="card-h">🔗 URBI (Maggioli) — Contabilità</div><div class="card-b">
+    <div style="font-size:13px;margin-bottom:8px">${URBI_CONFIG.SIMULAZIONE?'<span style="color:var(--warning)">⚠ Modalità simulazione</span>':'<span style="color:var(--success)">✅ Connesso: '+URBI_CONFIG.BASE_URL+'</span>'}</div>
+    <div class="fg" style="margin:4px 0"><label style="font-size:12px">Endpoint API</label><input type="text" id="urbi_url" value="${URBI_CONFIG.BASE_URL}" placeholder="https://urbi.regione.molise.it/api/v1" style="font-size:12px"></div>
+    <div class="row"><div class="col-6"><div class="fg" style="margin:4px 0"><label style="font-size:12px">Client ID (M2M)</label><input type="text" id="urbi_cid" value="${URBI_CONFIG.CLIENT_ID}" style="font-size:12px"></div></div>
+    <div class="col-6"><div class="fg" style="margin:4px 0"><label style="font-size:12px">Client Secret</label><input type="password" id="urbi_cs" value="${URBI_CONFIG.CLIENT_SECRET}" style="font-size:12px"></div></div></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-p btn-sm" onclick="saveUrbiCfg()">Salva</button>
+      <button class="btn btn-ghost" onclick="testUrbi()">Test connessione</button>
+      <label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="urbi_sim" ${URBI_CONFIG.SIMULAZIONE?'checked':''} onchange="URBI_CONFIG.SIMULAZIONE=this.checked"> Simulazione</label>
+    </div>
+    <div style="font-size:11px;color:var(--text-sec);margin-top:8px;line-height:1.4">
+      <strong>Profilo richiesto:</strong> utenza M2M (Machine-to-Machine) da Maggioli<br>
+      <strong>Scope:</strong> consultazione determine, mandati, quietanze<br>
+      <strong>API:</strong> GET /contabilita/determine?cup=X · GET /contabilita/mandati?n_determina=X · GET /contabilita/quietanze?n_mandato=X
+    </div>
+  </div></div></div>
+  <div class="col-6"><div class="card" style="border-left:4px solid #7D3C98"><div class="card-h">🔗 REGIS Coesione (MEF) — SIL</div><div class="card-b">
+    <div style="font-size:13px;margin-bottom:8px">${REGIS_CONFIG.SIMULAZIONE?'<span style="color:var(--warning)">⚠ Modalità simulazione</span>':'<span style="color:var(--success)">✅ Configurato</span>'}</div>
+    <div class="fg" style="margin:4px 0"><label style="font-size:12px">Endpoint Web Service</label><input type="text" id="regis_url" value="${REGIS_CONFIG.ENDPOINT}" placeholder="https://regis.rgs.mef.gov.it/ws/sil/v4" style="font-size:12px"></div>
+    <div class="row"><div class="col-6"><div class="fg" style="margin:4px 0"><label style="font-size:12px">Username</label><input type="text" id="regis_user" value="${REGIS_CONFIG.USERNAME}" style="font-size:12px"></div></div>
+    <div class="col-6"><div class="fg" style="margin:4px 0"><label style="font-size:12px">Password</label><input type="password" id="regis_pwd" value="${REGIS_CONFIG.PASSWORD}" style="font-size:12px"></div></div></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-p btn-sm" onclick="saveRegisCfg()">Salva</button>
+      <label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="regis_sim" ${REGIS_CONFIG.SIMULAZIONE?'checked':''} onchange="REGIS_CONFIG.SIMULAZIONE=this.checked"> Simulazione</label>
+    </div>
+    <div style="font-size:11px;color:var(--text-sec);margin-top:8px;line-height:1.4">
+      <strong>Auth:</strong> Certificato digitale .p12 + credenziali istituzionali<br>
+      <strong>Richiedere accesso:</strong> supportoregis@rgs.mef.gov.it<br>
+      <strong>Referente:</strong> AdG Regione Molise<br>
+      <strong>Strutture PUC:</strong> AP00, AP02-05, SC00, FN00-01, IN06, IP00
+    </div>
+  </div></div></div></div>
 
   <div class="card" style="border-top:3px solid var(--primary)"><div class="card-h">➕ Nuovo avviso</div><div class="card-b">
     <div class="row">
@@ -1408,21 +1671,28 @@ function salvaNominaRup(domId,tipo){
 // ═══════════════════════════════════════════════════════════════
 function rinunciaAccettazione(domId){
   const d=DB.applications.find(x=>x.id===domId);const av=AVVISI.find(a=>a.id===d.avviso);
-  d.status='non_ammissibile';d.verbali.push({tipo:'rinuncia_finanziamento',data:new Date().toISOString().slice(0,10),firmato:true});
-  d.pec_log.push({ogg:'Registrata rinuncia/scadenza accettazione '+d.id,dest:d.email,data:new Date().toISOString().slice(0,10)});
-  // Scorrimento: trova il primo non_ammissibile per budget esaurito in graduatoria
+  d.status='rinunciata';d.verbali.push({tipo:'rinuncia_finanziamento',data:new Date().toISOString().slice(0,10),firmato:true});
+  // PEC comunicazione di decadenza/rinuncia
+  dualPec(d,'Comunicazione di decadenza/rinuncia — '+d.id+' — '+d.company);
+  creaVerbalePDF(d.id,'rinuncia_finanziamento');
+  // Scorrimento: cerca il prossimo idoneo
   const stessoAvviso=DB.applications.filter(x=>x.avviso===d.avviso&&x.status==='non_ammissibile'&&x.score&&x.score>=(av?.config?.soglia||60)).sort((a,b)=>b.score-a.score);
   const finanziati=DB.applications.filter(x=>x.avviso===d.avviso&&['finanziata','in_pagamento','rendicontata','da_accettare','da_cup'].includes(x.status));
   let budgetUsato=finanziati.reduce((s,x)=>s+x.contributo,0);const residuo=av.dotazione-budgetUsato;
-  // Cerca il prossimo che ci sta nel budget (tra quelli non_ammissibile che avevano punteggio sopra soglia)
   const prossimo=stessoAvviso.find(x=>x.id!==d.id&&x.contributo<=residuo&&x.verbali?.some(v=>v.tipo==='graduatoria_non_finanziabile'));
   if(prossimo){
     prossimo.status='da_accettare';prossimo.scadenza_accettazione=new Date(Date.now()+30*864e5).toISOString().slice(0,10);
     prossimo.verbali.push({tipo:'scorrimento_graduatoria',data:new Date().toISOString().slice(0,10),firmato:true});
-    prossimo.pec_log.push({ogg:'Scorrimento graduatoria — Ammesso a finanziamento',dest:prossimo.email,data:new Date().toISOString().slice(0,10)});
+    // PEC + verbale di scorrimento al nuovo ammesso
+    dualPec(prossimo,'Scorrimento graduatoria — Ammesso a finanziamento — '+prossimo.id);
+    creaVerbalePDF(prossimo.id,'scorrimento_graduatoria');
     salvaDocCloud(prossimo.avviso,prossimo.id,'02_Verbali','Verbale_Scorrimento_'+prossimo.id+'.pdf',null);
-    nfy(`Scorrimento: ${d.id} rinuncia → ${prossimo.id} (${prossimo.company}) ammesso — Budget residuo: ${fE(residuo-prossimo.contributo)}`)
-  } else {nfy(`Rinuncia registrata per ${d.id} — Nessun idoneo per scorrimento (budget ${fE(residuo)})`)}
+    nfy(`✅ Scorrimento: ${d.id} rinuncia → ${prossimo.id} (${prossimo.company}) ammesso — Residuo: ${fE(residuo-prossimo.contributo)}`)
+  } else {
+    if(stessoAvviso.filter(x=>x.id!==d.id&&x.verbali?.some(v=>v.tipo==='graduatoria_non_finanziabile')).length>0){
+      nfy(`⚠ Rinuncia ${d.id} — Candidati idonei presenti ma NESSUNO RIENTRA NEL BUDGET (residuo: ${fE(residuo)})`,'err')
+    } else {nfy(`Rinuncia registrata per ${d.id} — Nessun candidato idoneo per scorrimento`)}
+  }
   go('o_istr')}
 
 
@@ -1435,6 +1705,29 @@ function revocaCup(domId){
   creaVerbalePDF(d.id,'revoca_cup');
   salvaDocCloud(d.avviso,d.id,'02_Verbali','Verbale_Revoca_CUP_'+oldCup+'.pdf',null);
   nfy('CUP '+oldCup+' revocato — Quota '+fE(d.contributo)+' disimpegnata');go('o_istr')}
+
+// ─── URBI/REGIS config save ───
+function saveUrbiCfg(){
+  URBI_CONFIG.BASE_URL=($$('urbi_url')?.value||'').trim();
+  URBI_CONFIG.CLIENT_ID=($$('urbi_cid')?.value||'').trim();
+  URBI_CONFIG.CLIENT_SECRET=($$('urbi_cs')?.value||'').trim();
+  URBI_CONFIG.SIMULAZIONE=$$('urbi_sim')?.checked??true;
+  nfy('URBI config salvata'+(URBI_CONFIG.SIMULAZIONE?' (simulazione)':' (produzione)'))}
+
+async function testUrbi(){
+  saveUrbiCfg();
+  if(URBI_CONFIG.SIMULAZIONE){nfy('URBI in simulazione — nessun test necessario');return}
+  nfy('Test connessione URBI...');
+  const ok=await urbiAuth();
+  if(ok)nfy('✅ URBI connesso — token ottenuto');
+  else nfy('❌ URBI connessione fallita','err')}
+
+function saveRegisCfg(){
+  REGIS_CONFIG.ENDPOINT=($$('regis_url')?.value||'').trim();
+  REGIS_CONFIG.USERNAME=($$('regis_user')?.value||'').trim();
+  REGIS_CONFIG.PASSWORD=($$('regis_pwd')?.value||'').trim();
+  REGIS_CONFIG.SIMULAZIONE=$$('regis_sim')?.checked??true;
+  nfy('REGIS config salvata'+(REGIS_CONFIG.SIMULAZIONE?' (simulazione)':' (produzione)'))}
 
 // ═══ INIT ═══
 Chart.defaults.font.family="'Titillium Web',sans-serif";
