@@ -2,8 +2,16 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoliseAvvisi21-27 v5 — Ecosistema Bandi PR 2021-2027 · FSC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#004d99">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MoliseAvvisi">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="MoliseAvvisi21-27 — Ecosistema digitale gestione bandi PR FESR FSE+ 2021-2027 e FSC — Regione Molise">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%23004d99'/><text x='256' y='340' font-size='280' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>M</text></svg>">
+<title>MoliseAvvisi21-27 — Ecosistema Bandi PR 2021-2027 · FSC</title>
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -35,7 +43,60 @@ input[type=text],input[type=email],input[type=number],input[type=date],select,te
 .tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:20px;flex-wrap:wrap}.tabs button{padding:10px 18px;font-size:13px;font-weight:600;color:var(--text-sec);cursor:pointer;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;background:none;font-family:var(--font);transition:.2s}.tabs button:hover{color:var(--primary)}.tabs button.active{color:var(--primary);border-bottom-color:var(--primary)}
 .crit-builder{border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-bottom:10px;background:#fafbfc;position:relative}
 .crit-builder .del-crit{position:absolute;top:8px;right:8px;background:var(--danger);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
-@media(max-width:768px){.row{flex-direction:column}.col-3,.col-4,.col-6{flex:0 0 100%}.avviso-grid{grid-template-columns:1fr}}
+@media(max-width:1024px){.container{padding:0 16px;max-width:100%}}
+@media(max-width:768px){
+  .row{flex-direction:column}.col-3,.col-4,.col-6,.col{flex:0 0 100%;max-width:100%}
+  .avviso-grid{grid-template-columns:1fr}
+  .hdr-center .container{flex-wrap:wrap;gap:10px}.hdr-center h1{font-size:17px}.hdr-center .sub{font-size:11px}
+  .hdr-center img{height:40px!important}
+  .hdr-slim{font-size:11px;padding:3px 0}.hdr-slim .container{flex-wrap:wrap;gap:4px}
+  #userBar .container{flex-wrap:wrap;gap:4px;font-size:12px}
+  .hdr-nav .container{display:flex;flex-wrap:wrap;gap:0}.hdr-nav a{padding:8px 10px;font-size:12px;white-space:nowrap}
+  .card-h{font-size:14px;padding:10px 14px;flex-wrap:wrap;gap:6px}
+  .card-b{padding:12px 14px}
+  .stat .v{font-size:16px!important}
+  .stat .l{font-size:10px}
+  .modal{width:98%;max-width:100%;max-height:95vh;border-radius:var(--radius)}.modal-b{padding:14px}.modal-h{padding:10px 14px}
+  .btn{padding:8px 12px;font-size:13px}
+  table{font-size:12px}th,td{padding:6px 8px}
+  .tabs{gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs button{padding:8px 12px;font-size:12px;flex-shrink:0}
+  .fg label{font-size:12px}.fg input,.fg select,.fg textarea{font-size:14px;padding:8px 10px}
+  .notify{right:12px;left:12px;top:60px;font-size:13px;padding:10px 14px}
+  h2{font-size:20px!important}
+  .prog{height:6px!important}
+  .footer{padding:20px 0;font-size:12px}.footer .row{gap:12px}
+  #page{overflow-x:hidden}
+}
+@media(max-width:480px){
+  .container{padding:0 10px}
+  .hdr-center{padding:10px 0}.hdr-center h1{font-size:15px}
+  .hdr-nav a{padding:6px 8px;font-size:11px}
+  .avviso-grid{grid-template-columns:1fr}
+  .stat{padding:10px 8px}
+  .card{margin-bottom:10px}
+  .btn{font-size:12px;padding:6px 10px}
+  .badge{font-size:9px;padding:2px 6px}
+}
+@media(max-width:360px){
+  .hdr-center img{height:32px!important}
+  .hdr-center h1{font-size:14px}
+  h2{font-size:18px!important}
+}
+/* PWA safe areas (iPhone notch) */
+@supports(padding: env(safe-area-inset-top)){
+  .hdr-slim{padding-top:calc(4px + env(safe-area-inset-top))}
+  .footer{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+}
+/* PWA standalone mode adjustments */
+.pwa-standalone .hdr-slim{padding-top:env(safe-area-inset-top,0px)}
+.pwa-standalone .footer{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.pwa-standalone body{overscroll-behavior:none}
+/* Smooth scrolling + touch */
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{-webkit-text-size-adjust:100%;overscroll-behavior-y:contain}
+/* Table horizontal scroll on mobile */
+table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;max-width:100%}
+thead,tbody,tr{display:table;width:100%;table-layout:auto}
 </style>
 </head>
 <body>
@@ -2041,6 +2102,34 @@ Chart.defaults.font.family="'Titillium Web',sans-serif";
 // Check SPID token first, then render public if no token
 const _hasSpidToken=new URLSearchParams(window.location.search).has('spid_token');
 if(_hasSpidToken){checkSpidToken()}else{renderPublic()}
+
+// ═══ PWA: Service Worker + Install Prompt ═══
+let deferredInstallPrompt=null;
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(reg=>{console.log('[PWA] SW registered, scope:',reg.scope);
+        reg.addEventListener('updatefound',()=>{const sw=reg.installing;
+          sw.addEventListener('statechange',()=>{if(sw.state==='installed'&&navigator.serviceWorker.controller)nfy('Aggiornamento disponibile — ricarica la pagina')})})})
+      .catch(e=>console.log('[PWA] SW registration failed:',e))})}
+
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;
+  // Show install button in header
+  const ub=document.getElementById('userBar');
+  if(ub&&!document.getElementById('pwaInstBtn')){
+    const btn=document.createElement('button');btn.id='pwaInstBtn';btn.className='btn btn-ghost';
+    btn.style.cssText='font-size:12px;padding:4px 10px;margin-left:8px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)';
+    btn.textContent='📲 Installa App';
+    btn.onclick=()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();deferredInstallPrompt.userChoice.then(r=>{if(r.outcome==='accepted')nfy('App installata!');deferredInstallPrompt=null;btn.remove()})}};
+    ub.querySelector('.container')?.appendChild(btn)}});
+
+window.addEventListener('appinstalled',()=>{nfy('MoliseAvvisi installata come app!');deferredInstallPrompt=null;
+  const b=document.getElementById('pwaInstBtn');if(b)b.remove()});
+
+// Check if running as installed PWA
+if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
+  document.documentElement.classList.add('pwa-standalone');
+  console.log('[PWA] Running as installed app')}
 </script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+{
+  "name": "MoliseAvvisi21-27",
+  "short_name": "MoliseAvvisi",
+  "description": "Ecosistema digitale gestione bandi PR FESR FSE+ 2021-2027 e FSC — Regione Molise",
+  "start_url": "./moliseavvisi-v7.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#004d99",
+  "background_color": "#f5f6f7",
+  "lang": "it-IT",
+  "categories": ["government", "finance", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23004d99'/%3E%3Ctext x='256' y='340' font-size='280' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%23004d99'/%3E%3Ctext x='96' y='130' font-size='110' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "./moliseavvisi-v7.html#dashboard",
+      "description": "Apri la dashboard"
+    },
+    {
+      "name": "Monitoraggio",
+      "url": "./moliseavvisi-v7.html#monitoraggio",
+      "description": "Monitoraggio fondi"
+    }
+  ]
+}
