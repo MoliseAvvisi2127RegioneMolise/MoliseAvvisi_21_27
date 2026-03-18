@@ -29,7 +29,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}thead th{background:var
 input[type=text],input[type=email],input[type=number],input[type=date],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:14px;color:var(--text);background:#fff;transition:.2s}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(0,102,204,.15)}textarea{resize:vertical;min-height:70px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border:2px solid transparent;border-radius:var(--radius);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;text-transform:uppercase;letter-spacing:.04em}.btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-p:hover{background:var(--primary-dark)}.btn-s{background:#e6e9f2;color:var(--text);border-color:#d0d5de}.btn-ok{background:var(--success);color:#fff;border-color:var(--success)}.btn-err{background:var(--danger);color:#fff;border-color:var(--danger)}.btn-sm{padding:6px 14px;font-size:12px}.btn-ghost{background:transparent;color:var(--primary);border-color:var(--primary);padding:6px 14px;font-size:12px}.btn-xls{background:#1D6F42;color:#fff;border-color:#1D6F42;padding:8px 16px;font-size:13px}
 .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
-.b-presentata{background:#cfe2ff;color:#084298}.b-ammissibile{background:#d1e7dd;color:#0f5132}.b-non_ammissibile{background:#f8d7da;color:#842029}.b-in_istruttoria{background:#e2d9f3;color:#432874}.b-in_graduatoria{background:#fff3cd;color:#856404}.b-da_accettare{background:#d1ecf1;color:#0c5460}.b-accettata{background:#badbcc;color:#0a3622}.b-da_cup{background:var(--warning-bg);color:var(--warning)}.b-finanziata{background:#badbcc;color:#0a3622}.b-in_pagamento{background:#b6d4fe;color:#052c65}.b-rendicontata{background:#d1ecf1;color:#0c5460}.b-chiusa{background:#e9ecf0;color:#5b6f82}.b-rinunciata{background:#f8d7da;color:#842029}.b-erogato{background:var(--success-bg);color:var(--success)}.b-in_verifica{background:var(--warning-bg);color:var(--warning)}.b-fesr{background:var(--fesr-bg);color:var(--fesr)}.b-fse{background:var(--fse-bg);color:var(--fse)}.b-fsc{background:var(--fsc-bg);color:var(--fsc)}
+.b-presentata{background:#cfe2ff;color:#084298}.b-ammissibile{background:#d1e7dd;color:#0f5132}.b-non_ammissibile{background:#f8d7da;color:#842029}.b-in_istruttoria{background:#e2d9f3;color:#432874}.b-in_graduatoria{background:#fff3cd;color:#856404}.b-da_accettare{background:#d1ecf1;color:#0c5460}.b-accettata{background:#badbcc;color:#0a3622}.b-da_cup{background:var(--warning-bg);color:var(--warning)}.b-finanziata{background:#badbcc;color:#0a3622}.b-in_pagamento{background:#b6d4fe;color:#052c65}.b-rendicontata{background:#d1ecf1;color:#0c5460}.b-chiusa{background:#e9ecf0;color:#5b6f82}.b-rinunciata{background:#f8d7da;color:#842029}.b-in_contestazione{background:#fff3cd;color:#856404}.b-erogato{background:var(--success-bg);color:var(--success)}.b-in_verifica{background:var(--warning-bg);color:var(--warning)}.b-fesr{background:var(--fesr-bg);color:var(--fesr)}.b-fse{background:var(--fse-bg);color:var(--fse)}.b-fsc{background:var(--fsc-bg);color:var(--fsc)}
 .prog{height:8px;background:#e9ecf0;border-radius:4px;overflow:hidden}.prog-bar{height:100%;border-radius:4px;transition:width .5s}
 .row{display:flex;gap:20px;flex-wrap:wrap}.col{flex:1;min-width:0}.col-3{flex:0 0 calc(25% - 15px)}.col-4{flex:0 0 calc(33.33% - 14px)}.col-6{flex:0 0 calc(50% - 10px)}
 .stat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;border-top:3px solid var(--primary)}.stat .v{font-size:22px;font-weight:700;color:var(--primary);font-family:var(--mono)}.stat .l{font-size:11px;color:var(--text-sec);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
@@ -118,7 +118,7 @@ function logoFondo(fondo){return fondo==="FSC"?LOGO_FSC:LOGO_COESIONE}
 /*═══════════════════════════════════════════════════════════════════
   DATA MODEL — v5: workflow completo domanda→accettazione→CUP
 ═══════════════════════════════════════════════════════════════════*/
-const ST={presentata:"Presentata",ammissibile:"Ammessa a istruttoria",non_ammissibile:"Non ammissibile",in_istruttoria:"In istruttoria",in_graduatoria:"In graduatoria",da_accettare:"Da accettare (beneficiario)",accettata:"Accettata",da_cup:"In attesa CUP",finanziata:"Finanziata",in_pagamento:"In pagamento",rendicontata:"Rendicontata",chiusa:"Chiusa/Revocata",rinunciata:"Rinunciata"};
+const ST={presentata:"Presentata",ammissibile:"Ammessa a istruttoria",non_ammissibile:"Non ammissibile",in_istruttoria:"In istruttoria",in_graduatoria:"In graduatoria",da_accettare:"Da accettare (beneficiario)",accettata:"Accettata",da_cup:"In attesa CUP",finanziata:"Finanziata",in_pagamento:"In pagamento",rendicontata:"Rendicontata",chiusa:"Chiusa/Revocata",rinunciata:"Rinunciata",in_contestazione:"Contestazione L.241/90"};
 const FN={FESR:{l:"FESR",c:"#1B4F72",cls:"fesr"},FSEplus:{l:"FSE+",c:"#7D3C98",cls:"fse"},FSC:{l:"FSC",c:"#B7950B",cls:"fsc"}};
 const SCLVL=[{l:"Ottimo",f:1},{l:"Buono",f:.8},{l:"Sufficiente",f:.6},{l:"Parz. suff.",f:.4},{l:"Insufficiente",f:.2},{l:"Non presente",f:0}];
 
@@ -727,7 +727,7 @@ function showDetail(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;const
     <div style="flex:0 0 340px">
       <div class="card" style="border-top:3px solid ${f.c}"><div class="card-b" style="text-align:center">
         <div style="font-size:28px;font-weight:900;color:${f.c};font-family:var(--mono)">${fE(a.dotazione)}</div>
-        <div style="margin:16px 0;display:flex;justify-content:space-around;font-size:13px"><div><strong>Apertura</strong><br>${fD(a.apertura)}</div><div><strong>Chiusura</strong><br>${fD(a.chiusura)}</div></div>
+        <div style="margin:16px 0;display:flex;justify-content:space-around;font-size:13px"><div><strong>Apertura</strong><br>${fD(a.apertura)}</div><div><strong>Chiusura</strong><br>${fD(a.chiusura)}${a.proroghe?.length?' <span style="color:var(--warning);font-weight:700">(prorogato)</span>':''}</div></div>
         ${a.stato==='aperto'?`<button class="btn btn-p" style="width:100%;justify-content:center;padding:14px" onclick="showLogin()">PRESENTA CANDIDATURA</button>`:''}</div></div>
       ${a.allegati?.length?`<div class="card"><div class="card-h">📎 Allegati</div><div class="card-b">${a.allegati.map(al=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f2f4;cursor:pointer" onclick="nfy('Download: ${al.file}')"><span style="font-size:20px">📄</span><div style="flex:1"><strong style="font-size:13px">${al.nome}</strong><div style="font-size:12px;color:var(--text-sec)">${al.dim}</div></div><span style="color:var(--primary)">⬇</span></div>`).join('')}</div></div>`:''}
     </div></div></div>`}
@@ -807,9 +807,10 @@ function checkSpidToken(){
           if(found.ruolo!=='presidente')nav+='<a onclick="go(\'o_dom\')">Domande</a><a onclick="go(\'o_istr\')">Istruttoria</a><a onclick="go(\'o_pag\')">Pagamenti</a><a onclick="go(\'o_ren\')">Rendicontazione</a>';
           nav+='<a onclick="go(\'o_mon\')">Monitoraggio</a>';
           if(found.ruolo==='admin')nav+='<a onclick="go(\'o_cfg\')">⚙Config</a><a onclick="go(\'o_ut\')">👤Utenze</a><a onclick="exportAuditLog()">📋Log</a>';
+          nav+='<a onclick="openGuida()" style="font-size:12px">📘</a><a onclick="openTicket()" style="font-size:12px">🎫</a>';
           $$('navLinks').innerHTML=nav;go('o_dash');
         } else {CU={cf,nome:nm,ruolo:'beneficiario',bandi:['*']};$$('roleTag').textContent=nm+' — SPID ✓';
-          $$('navLinks').innerHTML='<a class="active" onclick="go(\'b_avv\')">Avvisi</a><a onclick="go(\'b_dom\')">Le mie domande</a>';go('b_avv')}
+          $$('navLinks').innerHTML='<a class="active" onclick="go(\'b_avv\')">Avvisi</a><a onclick="go(\'b_new\')">Nuova candidatura</a><a onclick="go(\'b_dom\')">Le mie domande</a><a onclick="openGuida()" style="font-size:12px">📘 Guida</a><a onclick="openTicket()" style="font-size:12px">🎫 Supporto</a>';go('b_avv')}
         nfy('✅ Autenticato SPID: '+nm);
       } else {nfy('Token SPID non valido','err');renderPublic()}
     }).catch(e=>{nfy('Errore verifica SPID','err');renderPublic()})}
@@ -821,17 +822,18 @@ function doLogin(){const cf=($$('l_cf')?.value||'').trim().toUpperCase(),nm=$$('
     if(found.ruolo!=='presidente')nav+='<a onclick="go(\'o_dom\')">Domande</a><a onclick="go(\'o_istr\')">Istruttoria</a><a onclick="go(\'o_pag\')">Pagamenti</a><a onclick="go(\'o_ren\')">Rendicontazione</a>';
     nav+='<a onclick="go(\'o_mon\')">Monitoraggio</a>';
     if(found.ruolo==='admin')nav+='<a onclick="go(\'o_cfg\')">⚙Config</a><a onclick="go(\'o_ut\')">👤Utenze</a><a onclick="exportAuditLog()">📋Log</a>';
+    nav+='<a onclick="openGuida()" style="font-size:12px">📘</a><a onclick="openTicket()" style="font-size:12px">🎫</a>';
     $$('navLinks').innerHTML=nav;go('o_dash');
   } else {CU={cf,nome:nm,ruolo:'beneficiario',bandi:['*']};$$('roleTag').textContent=nm+' — SPID';
-    $$('navLinks').innerHTML='<a class="active" onclick="go(\'b_avv\')">Avvisi</a><a onclick="go(\'b_dom\')">Le mie domande</a>';go('b_avv')}}
+    $$('navLinks').innerHTML='<a class="active" onclick="go(\'b_avv\')">Avvisi</a><a onclick="go(\'b_new\')">Nuova candidatura</a><a onclick="go(\'b_dom\')">Le mie domande</a><a onclick="openGuida()" style="font-size:12px">📘 Guida</a><a onclick="openTicket()" style="font-size:12px">🎫 Supporto</a>';go('b_avv')}}
 function doLogout(){CU=null;renderPublic()}
-function go(p){document.querySelectorAll('#navLinks a').forEach(a=>a.classList.remove('active'));const m={b_avv:0,b_dom:1,o_dash:0,o_dom:1,o_istr:2,o_pag:3,o_ren:4,o_mon:5,o_cfg:6,o_ut:7};const lk=document.querySelectorAll('#navLinks a');if(lk[m[p]])lk[m[p]].classList.add('active');
-  const fn={b_avv:pgBA,b_dom:pgBD,o_dash:pgOD,o_dom:pgODom,o_istr:pgOI,o_pag:pgOP,o_ren:pgOR,o_mon:pgOM,o_cfg:pgOC,o_ut:pgOU};if(fn[p])fn[p]()}
+function go(p){document.querySelectorAll('#navLinks a').forEach(a=>a.classList.remove('active'));const m={b_avv:0,b_new:1,b_dom:2,o_dash:0,o_dom:1,o_istr:2,o_pag:3,o_ren:4,o_mon:5,o_cfg:6,o_ut:7};const lk=document.querySelectorAll('#navLinks a');if(lk[m[p]])lk[m[p]].classList.add('active');
+  const fn={b_avv:pgBA,b_new:pgBN,b_dom:pgBD,o_dash:pgOD,o_dom:pgODom,o_istr:pgOI,o_pag:pgOP,o_ren:pgOR,o_mon:pgOM,o_cfg:pgOC,o_ut:pgOU};if(fn[p])fn[p]()}
 
 /*═══════════════════════════════════════════════════════════════════
   BENEFICIARIO
 ═══════════════════════════════════════════════════════════════════*/
-function pgBA(){const ap=AVVISI.filter(a=>a.stato==='aperto');P().innerHTML=`<h2 style="margin-bottom:16px">Avvisi</h2><div class="avviso-grid">${ap.map(a=>`<div class="avviso-card" onclick="showDetail('${a.id}')"><div style="padding:14px 20px 0"><span class="badge b-${FN[a.fondo]?.cls}">${FN[a.fondo]?.l}</span></div><div style="padding:10px 20px 14px;flex:1"><div style="font-size:16px;font-weight:700;margin-bottom:6px">${a.titolo}</div><div style="font-size:12px;color:var(--text-sec)">${fE(a.dotazione)}</div></div><div style="padding:10px 20px;border-top:1px solid #eee;background:#fafbfc;font-size:13px;color:var(--primary);font-weight:700">Dettaglio e candidatura →</div></div>`).join('')}</div>`}
+function pgBA(){const ap=AVVISI.filter(a=>a.stato==='aperto');P().innerHTML=`<h2 style="margin-bottom:16px">Avvisi aperti</h2><div class="avviso-grid">${ap.map(a=>`<div class="avviso-card" onclick="pgBN('${a.id}')"><div style="padding:14px 20px 0"><span class="badge b-${FN[a.fondo]?.cls}">${FN[a.fondo]?.l}</span>${a.proroghe?.length?'<span style="margin-left:8px;color:var(--warning);font-size:11px;font-weight:700">(prorogato)</span>':''}</div><div style="padding:10px 20px 14px;flex:1"><div style="font-size:16px;font-weight:700;margin-bottom:6px">${a.titolo}</div><div style="font-size:12px;color:var(--text-sec)">${fE(a.dotazione)} · Scadenza: ${fD(a.chiusura)}</div></div><div style="padding:10px 20px;border-top:1px solid #eee;background:#fafbfc;font-size:13px;color:var(--primary);font-weight:700">Dettaglio e candidatura →</div></div>`).join('')}</div>`}
 
 function pgBD(){const a=DB.applications;
   P().innerHTML=`<h2 style="margin-bottom:16px">Le mie domande</h2>
@@ -842,6 +844,8 @@ function pgBD(){const a=DB.applications;
     if(d.verbali?.length){docs+=`<div style="margin-top:6px"><strong style="font-size:12px;color:var(--text-sec)">📋 Verbali</strong>`;
       d.verbali.forEach(v=>{docs+=`<div style="font-size:11px;padding:2px 0;color:var(--primary);cursor:pointer" onclick="creaVerbalePDF('${d.id}','${v.tipo}')">📋 ${v.tipo}${v.punteggio?' ('+v.punteggio+'/100)':''} ${v.firmato?'✍RUP':''} ${fD(v.data)}</div>`});docs+=`</div>`}
     if(d.status==='da_accettare')docs+=`<div style="margin-top:8px;padding:8px;background:var(--warning-bg);border-radius:var(--radius)"><button class="btn btn-ok btn-sm" onclick="accettaFinanziamento('${d.id}')">✍ Accetta finanziamento</button></div>`;
+    if(d.status==='non_ammissibile'&&!d.contestazione)docs+=`<div style="margin-top:8px;padding:8px;background:var(--danger-bg);border-radius:var(--radius)"><strong style="font-size:12px;color:var(--danger)">⚖ Diritto di presentare osservazioni (L.241/90)</strong><br><button class="btn btn-sm" style="margin-top:4px;background:var(--warning);color:#fff" onclick="openContestazione('${d.id}')">📝 Contestazione</button></div>`;
+    if(d.contestazione)docs+=`<div style="margin-top:8px;padding:8px;background:${d.contestazione.stato==='accolta'?'var(--success-bg)':d.contestazione.stato==='rigettata'?'var(--danger-bg)':'var(--warning-bg)'};border-radius:var(--radius)"><strong style="font-size:12px">⚖ Contestazione: ${d.contestazione.stato?.toUpperCase()}</strong><div style="font-size:11px">${d.contestazione.data||''}</div></div>`;
     if(d.accettazione?.firmata)docs+=`<div style="font-size:11px;color:var(--success);margin-top:4px">✓ Accettazione: ${d.accettazione.doc}</div>`;
     if(d.cup)docs+=`<div style="font-size:12px;margin-top:4px"><strong>CUP:</strong> <span style="font-family:var(--mono)">${d.cup}</span></div>`;
     if(d.pagamenti?.length){docs+=`<div style="margin-top:6px"><strong style="font-size:12px;color:var(--text-sec)">💰 Pagamenti</strong>`;
@@ -867,21 +871,81 @@ function confirmAccettazione(id,input){
   dualPec(d,'Accettazione finanziamento ricevuta — '+d.id);
   closeModal();nfy('Accettazione caricata + PEC inviata a beneficiario e Regione');go('b_dom')}
 
-function pgBN(){const ap=AVVISI.filter(a=>a.stato==='aperto'&&a.config);P().innerHTML=`<h2 style="margin-bottom:16px">Nuova candidatura</h2>
-  <div class="card"><div class="card-h">Avviso</div><div class="card-b"><div class="fg"><label>Seleziona</label><select id="f_av" onchange="bldF()"><option value="">—</option>${ap.map(a=>`<option value="${a.id}">[${FN[a.fondo]?.l}] ${a.titolo}</option>`).join('')}</select></div></div></div><div id="dyn"></div>`}
+function pgBN(preAvId){const ap=AVVISI.filter(a=>a.stato==='aperto'&&a.config);P().innerHTML=`<h2 style="margin-bottom:16px">Nuova candidatura</h2>
+  <div class="card"><div class="card-h">Avviso</div><div class="card-b"><div class="fg"><label>Seleziona <span style="color:var(--danger)">*</span></label><select id="f_av" onchange="bldF()"><option value="">— Seleziona avviso —</option>${ap.map(a=>`<option value="${a.id}" ${preAvId===a.id?'selected':''}>[${FN[a.fondo]?.l}] ${a.titolo} — Scadenza: ${fD(a.chiusura)}${a.proroghe?.length?' (prorogato)':''}</option>`).join('')}</select></div></div></div><div id="dyn"></div>`;
+  if(preAvId)setTimeout(()=>bldF(),50)}
 function bldF(){const a=AVVISI.find(x=>x.id===$$('f_av')?.value);if(!a?.config){$$('dyn').innerHTML='';return}const c=a.config;
-  let h=`<div class="card"><div class="card-h">Dati</div><div class="card-b"><div class="row"><div class="col-6"><div class="fg"><label>Ragione Sociale <span class="req">*</span></label><input type="text" id="f_co"></div></div><div class="col-6"><div class="fg"><label>Importo €</label><input type="number" id="f_im"></div></div><div class="col-6"><div class="fg"><label>PEC</label><input type="email" id="f_pec"></div></div></div></div></div>`;
+  const localDraft=JSON.parse(localStorage.getItem('draft_'+a.id+'_'+(CU?.cf||''))||'{}');
+  const renderForm=function(draft){
+  let h=`<div class="callout ok" style="font-size:13px">💾 La domanda si salva automaticamente (locale + cloud). Puoi uscire e riprendere da qualsiasi dispositivo.${draft.ts?' <br><strong>Ultimo salvataggio: '+new Date(draft.ts).toLocaleString('it-IT')+'</strong>':''}</div>`;
+  h+=`<div class="card"><div class="card-h">Dati obbligatori</div><div class="card-b"><div class="row"><div class="col-6"><div class="fg"><label>Ragione Sociale <span style="color:var(--danger)">*</span></label><input type="text" id="f_co" value="${draft.co||''}" oninput="saveDraft()"></div></div><div class="col-6"><div class="fg"><label>P.IVA / C.F. <span style="color:var(--danger)">*</span></label><input type="text" id="f_piva" value="${draft.piva||''}" oninput="saveDraft()"></div></div><div class="col-6"><div class="fg"><label>Importo € <span style="color:var(--danger)">*</span></label><input type="number" id="f_im" value="${draft.im||''}" oninput="saveDraft()"></div></div><div class="col-6"><div class="fg"><label>PEC <span style="color:var(--danger)">*</span></label><input type="email" id="f_pec" value="${draft.pec||''}" oninput="saveDraft()"></div></div><div class="col-6"><div class="fg"><label>Sede legale <span style="color:var(--danger)">*</span></label><input type="text" id="f_sede" value="${draft.sede||''}" oninput="saveDraft()"></div></div><div class="col-6"><div class="fg"><label>Legale rappresentante <span style="color:var(--danger)">*</span></label><input type="text" id="f_legale" value="${draft.legale||''}" oninput="saveDraft()"></div></div></div></div></div>`;
   if(c.campi?.length)h+=`<div class="card"><div class="card-h">Specifiche</div><div class="card-b"><div class="row">${c.campi.map(f=>`<div class="col-6"><div class="fg"><label>${f.label}</label>${f.tipo==='select'?`<select id="fc_${f.id}"><option>—</option>${f.opzioni.map(o=>`<option>${o}</option>`).join('')}</select>`:`<input type="${f.tipo}" id="fc_${f.id}">`}</div></div>`).join('')}</div></div></div>`;
   if(c.documenti?.length)h+=`<div class="card"><div class="card-h">📎 Documenti</div><div class="card-b">${c.documenti.map(d=>`<div class="doc-section" id="ds_${d.id}"><strong style="font-size:13px">📄 ${d.label} ${d.obb?'<span style="color:var(--danger);font-size:11px">OBB.</span>':''}<span id="dc_${d.id}" style="display:none;color:var(--success)"> ✓</span></strong><div class="upload-zone" id="dz_${d.id}" style="margin-top:6px;padding:12px"><input type="file" accept="${d.fmt}" onchange="sU('${d.id}',this)"><div style="font-size:13px">📁 ${d.fmt}</div></div><div id="fl_${d.id}"></div></div>`).join('')}</div></div>`;
-  h+=`<button class="btn btn-p" onclick="subD()" style="margin-top:12px">PRESENTA</button>`;$$('dyn').innerHTML=h}
+  h+=`<div style="display:flex;gap:12px;margin-top:12px"><button class="btn btn-p" onclick="subD()">📤 PRESENTA DOMANDA</button><button class="btn btn-ghost" onclick="saveDraft();nfy('Bozza salvata!')">💾 Salva bozza</button></div>
+  <div style="margin-top:8px"><a style="color:var(--primary);cursor:pointer;font-size:13px" onclick="openGuida()">📖 Guida alla compilazione</a> · <a style="color:var(--primary);cursor:pointer;font-size:13px" onclick="openTicket()">🎫 Richiedi supporto</a></div>`;$$('dyn').innerHTML=h};
+  // Carica bozza: prima locale, poi cloud
+  if(localDraft.co||localDraft.piva){renderForm(localDraft)}
+  else{loadDraftCloud(a.id,function(cloudDraft){renderForm(cloudDraft||{})})}}
+function saveDraft(){const avId=$$('f_av')?.value;if(!avId)return;const key='draft_'+avId+'_'+(CU?.cf||'');
+  const draft={co:$$('f_co')?.value||'',piva:$$('f_piva')?.value||'',im:$$('f_im')?.value||'',pec:$$('f_pec')?.value||'',sede:$$('f_sede')?.value||'',legale:$$('f_legale')?.value||'',ts:new Date().toISOString()};
+  const a=AVVISI.find(x=>x.id===avId);(a?.config?.campi||[]).forEach(f=>{draft['fc_'+f.id]=$$('fc_'+f.id)?.value||''});
+  // 1. Salva locale (sempre)
+  localStorage.setItem(key,JSON.stringify(draft));
+  // 2. Salva su Google Drive (se connesso)
+  if(gdriveToken){
+    const fileName='BOZZA_'+avId+'_'+(CU?.cf||'anonimo')+'.json';
+    const content=JSON.stringify(draft,null,2);
+    const blob=new Blob([content],{type:'application/json'});
+    // Cerca/crea cartella 00_BOZZE
+    trovaOCreaCartella('00_BOZZE',null).then(folderId=>{
+      if(!folderId)return;
+      // Upload/overwrite su Drive
+      const metadata={name:fileName,parents:[folderId],mimeType:'application/json'};
+      const form=new FormData();
+      form.append('metadata',new Blob([JSON.stringify(metadata)],{type:'application/json'}));
+      form.append('file',blob);
+      fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{
+        method:'POST',headers:{Authorization:'Bearer '+gdriveToken},body:form
+      }).then(r=>r.json()).then(()=>{
+        console.log('[Bozza] Salvata su Drive: '+fileName)
+      }).catch(e=>console.log('[Bozza] Errore Drive:',e))
+    }).catch(()=>{})}}
+function loadDraftFromCloud(avId){
+  // Prova prima localStorage, poi Drive
+  const key='draft_'+avId+'_'+(CU?.cf||'');
+  const local=localStorage.getItem(key);
+  if(local){try{return JSON.parse(local)}catch(e){return {}}}
+  // Se non c'è locale ma c'è Drive, potrebbe essere su un altro dispositivo
+  // Il caricamento da Drive è asincrono, verrà gestito nella bldF
+  return {}}
+function loadDraftCloud(avId,callback){
+  if(!gdriveToken){callback(null);return}
+  const fileName='BOZZA_'+avId+'_'+(CU?.cf||'anonimo')+'.json';
+  fetch('https://www.googleapis.com/drive/v3/files?q=name%3D%27'+encodeURIComponent(fileName)+'%27+and+trashed%3Dfalse&fields=files(id,name)',{
+    headers:{Authorization:'Bearer '+gdriveToken}
+  }).then(r=>r.json()).then(data=>{
+    if(data.files?.length){
+      fetch('https://www.googleapis.com/drive/v3/files/'+data.files[0].id+'?alt=media',{
+        headers:{Authorization:'Bearer '+gdriveToken}
+      }).then(r=>r.json()).then(draft=>{callback(draft)}).catch(()=>callback(null))
+    }else callback(null)
+  }).catch(()=>callback(null))}
 const uDx={};function sU(id,i){if(!i.files[0])return;uDx[id]=i.files[0].name;$$('ds_'+id)?.classList.add('has-file');$$('dc_'+id).style.display='inline';$$('dz_'+id).style.display='none';$$('fl_'+id).innerHTML=`<div class="file-item">📄 <strong>${i.files[0].name}</strong></div>`}
-function subD(){const avId=$$('f_av')?.value,co=$$('f_co')?.value;if(!avId||!co){nfy('Compilare','err');return}const a=AVVISI.find(x=>x.id===avId);const im=parseFloat($$('f_im')?.value)||0;
-  const docs={};Object.keys(uDx).forEach(k=>docs[k]=uDx[k]);
-  DB.applications.push({id:'DOM-'+String(DB.applications.length+1).padStart(3,'0'),avviso:avId,company:co,piva:'',email:$$('f_pec')?.value||'',fondo:a?.fondo||'FESR',importo:im,contributo:Math.round(im*.5),status:'presentata',submittedAt:new Date().toISOString().slice(0,10),score:null,cup:null,rup_aggiudicazione:null,rup_esecuzione:null,campi:{},docs_caricati:docs,istruttoria:{},graduatoria_pos:null,accettazione:null,scadenza_accettazione:null,pagamenti:[],rendicontazione:[],verbali:[],pec_log:[]});
+function verifyFirma(fn){return fn.toLowerCase().endsWith('.p7m')}
+function subD(){const avId=$$('f_av')?.value,co=$$('f_co')?.value,piva=$$('f_piva')?.value,pec=$$('f_pec')?.value,im=$$('f_im')?.value,sede=$$('f_sede')?.value,legale=$$('f_legale')?.value;
+  const miss=[];if(!avId)miss.push('Avviso');if(!co)miss.push('Ragione Sociale');if(!piva)miss.push('P.IVA/CF');if(!pec)miss.push('PEC');if(!im)miss.push('Importo');if(!sede)miss.push('Sede');if(!legale)miss.push('Legale rapp.');
+  const a=AVVISI.find(x=>x.id===avId);
+  if(a?.config?.campi)a.config.campi.forEach(f=>{if(!$$('fc_'+f.id)?.value)miss.push(f.label)});
+  if(a?.config?.documenti)a.config.documenti.filter(d=>d.obb).forEach(d=>{if(!uDx[d.id])miss.push('Doc: '+d.label)});
+  if(miss.length){nfy('Campi obbligatori mancanti: '+miss.join(', '),'err');return}
+  const noFirma=Object.values(uDx).filter(f=>!verifyFirma(f));
+  if(noFirma.length&&!confirm('File senza firma digitale (.p7m):\n'+noFirma.join('\n')+'\n\nProcedere comunque?'))return;
+  const docs={};Object.keys(uDx).forEach(k=>{docs[k]=uDx[k]});const importo=parseFloat(im)||0;
+  DB.applications.push({id:'DOM-'+String(DB.applications.length+1).padStart(3,'0'),avviso:avId,company:co,piva:piva,email:pec,fondo:a?.fondo||'FESR',importo:importo,contributo:Math.round(importo*.5),status:'presentata',submittedAt:new Date().toISOString().slice(0,10),score:null,cup:null,sede:sede,legale:legale,rup_aggiudicazione:null,rup_esecuzione:null,campi:{},docs_caricati:docs,istruttoria:{},graduatoria_pos:null,accettazione:null,scadenza_accettazione:null,pagamenti:[],rendicontazione:[],verbali:[],pec_log:[],contestazione:null});
   const newId='DOM-'+String(DB.applications.length).padStart(3,'0');
-  // Salva documenti candidatura su cloud
   Object.entries(docs).forEach(([k,v])=>salvaDocCloud(avId,newId,'01_Candidatura',v,null));
-  nfy('Candidatura presentata e salvata su cloud!');go('b_dom')}
+  localStorage.removeItem('draft_'+avId+'_'+(CU?.cf||''));
+  nfy('Candidatura presentata!');go('b_dom')}
 
 function pgBP(){const fin=DB.applications.filter(a=>a.pagamenti?.length);let h='<h2 style="margin-bottom:16px">Pagamenti</h2>';
   fin.forEach(d=>{const er=d.pagamenti.filter(p=>p.stato==='erogato').reduce((s,p)=>s+p.importo,0);
@@ -975,6 +1039,12 @@ function pgODom(){const d=myD();const presentate=d.filter(x=>x.status==='present
       <td><button class="btn btn-ghost" onclick="viewDocs('${dm.id}')">📁 ${nD} doc</button></td>
       <td><button class="btn btn-ok btn-sm" onclick="openAmm('${dm.id}')">✓ Ammetti</button> <button class="btn btn-err btn-sm" onclick="respingiDom('${dm.id}')">✕ Respingi</button></td></tr>`});
     h+=`</tbody></table></div></div>`;setTimeout(()=>makeSortable('tP'),60)}
+  // ── Contestazioni da esaminare ──
+  const contest=d.filter(x=>x.status==='in_contestazione');
+  if(contest.length){h+=`<div class="card" style="border-top:3px solid var(--warning)"><div class="card-h">⚖️ Contestazioni L.241/90 da esaminare (${contest.length})</div><div class="card-b" style="overflow-x:auto"><table><thead><tr><th>ID</th><th>Richiedente</th><th>Data contest.</th><th>Motivazione</th><th>Allegati</th><th>Azioni</th></tr></thead><tbody>`;
+    contest.forEach(dm=>{const c=dm.contestazione||{};
+      h+=`<tr><td><strong>${dm.id}</strong></td><td>${dm.company}</td><td style="font-size:12px">${fD(c.data)}</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis">${(c.motivazione||'').substring(0,80)}…</td><td style="font-size:12px">${(c.allegati||[]).length} file</td><td><button class="btn btn-p btn-sm" onclick="esaminaContestazione('${dm.id}')">⚖️ Esamina</button> <button class="btn btn-ghost" onclick="viewDocs('${dm.id}')">📁</button></td></tr>`});
+    h+=`</tbody></table></div></div>`}
   h+=`<div class="card"><div class="card-h">📋 Archivio completo domande</div><div class="card-b" style="overflow-x:auto"><table id="tA"><thead><tr><th>ID</th><th>Avviso</th><th>Richiedente</th><th>Fondo</th><th>CUP</th><th>Importo</th><th>Stato</th><th>Score</th><th>RUP</th></tr></thead><tbody>`;
   d.forEach(dm=>{const av=AVVISI.find(x=>x.id===dm.avviso);h+=`<tr><td><strong>${dm.id}</strong></td><td style="font-size:12px">${av?.titolo?.substring(0,22)||''}…</td><td>${dm.company}</td><td><span class="badge b-${FN[dm.fondo]?.cls}">${FN[dm.fondo]?.l}</span></td><td style="font-family:var(--mono);font-size:11px">${dm.cup||'—'}</td><td style="font-family:var(--mono)">${fE(dm.importo)}</td><td><span class="badge b-${dm.status}">${ST[dm.status]||dm.status}</span></td><td style="font-family:var(--mono);font-weight:700">${dm.score||'—'}</td><td style="font-size:12px">${rupAgg(dm)}</td></tr>`});
   h+=`</tbody></table></div></div>`;P().innerHTML=h;makeSortable('tA')}
@@ -991,6 +1061,71 @@ function doRespingi(id){
     dualPec(d,'Non ammissibilita\' '+d.id);
     salvaDocCloud(d.avviso,d.id,'02_Verbali','Verbale_NonAmmissibilita_'+d.id+'.pdf.p7m',null);
     nfy('Respinta — Firmata Aruba + PEC + Cloud');go('o_dom')})}
+
+// ═══ CONTESTAZIONE L.241/90 ═══
+function openContestazione(domId){const d=DB.applications.find(x=>x.id===domId);
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:640px" onclick="event.stopPropagation()"><div class="modal-h" style="background:var(--warning)"><h3>⚖ Contestazione L.241/90 — ${d.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">
+  <div class="callout warn" style="font-size:13px">Artt. 7, 10, 10-bis L.241/90. Termine: 10 giorni dalla comunicazione.</div>
+  <div style="margin-bottom:12px"><strong>${d.company}</strong></div>
+  <div class="fg"><label>Motivazione <span style="color:var(--danger)">*</span></label><textarea id="cont_mot" rows="4"></textarea></div>
+  <div class="fg"><label>📎 Allegati</label><div class="upload-zone"><input type="file" accept=".pdf,.p7m" id="cont_file" multiple><div>📁 PDF/.p7m</div></div></div>
+  <button class="btn btn-p" onclick="inviaContestazione('${d.id}')">📤 Invia</button></div></div></div>`}
+function inviaContestazione(domId){const mot=$$('cont_mot')?.value;if(!mot){nfy('Motivazione obbligatoria','err');return}
+  const d=DB.applications.find(x=>x.id===domId);const files=$$('cont_file')?.files;const all=[];if(files)for(let i=0;i<files.length;i++)all.push(files[i].name);
+  d.contestazione={data:new Date().toISOString().slice(0,10),motivazione:mot,allegati:all,stato:'in_esame',risposta:null};
+  d.status_pre=d.status;d.status='in_contestazione';
+  auditLog('Contestazione L.241/90 — '+domId);dualPec(d,'Contestazione L.241/90 ricevuta — '+domId);
+  closeModal();nfy('Contestazione inviata + PEC');go(CU.ruolo==='admin'||CU.ruolo==='rup'?'o_dom':'b_dom')}
+function esaminaContestazione(domId){const d=DB.applications.find(x=>x.id===domId);if(!d.contestazione)return;
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:640px" onclick="event.stopPropagation()"><div class="modal-h" style="background:var(--warning)"><h3>⚖ Esame contestazione — ${d.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">
+  <div class="callout warn"><strong>Motivazione:</strong> ${d.contestazione.motivazione}</div>
+  ${d.contestazione.allegati?.length?`<div style="margin-bottom:8px">Allegati: ${d.contestazione.allegati.map(f=>'📄 '+f).join(', ')}</div>`:''}
+  <div class="fg"><label>Esito <span style="color:var(--danger)">*</span></label><textarea id="cont_risp" rows="3"></textarea></div>
+  <div style="display:flex;gap:12px"><button class="btn btn-ok" onclick="decidiCont('${domId}',true)">✅ Accogli</button><button class="btn btn-err" onclick="decidiCont('${domId}',false)">❌ Rigetta</button></div></div></div></div>`}
+function decidiCont(domId,ok){const r=$$('cont_risp')?.value;if(!r){nfy('Motivare','err');return}
+  richiediFirmaAruba('Esito contestazione — '+domId,()=>{const d=DB.applications.find(x=>x.id===domId);
+    d.contestazione.stato=ok?'accolta':'rigettata';d.contestazione.risposta=r;d.contestazione.data_esito=new Date().toISOString().slice(0,10);
+    d.status=ok?(d.status_pre==='non_ammissibile'?'presentata':'ammissibile'):(d.status_pre||'non_ammissibile');
+    d.verbali.push({tipo:'esito_contestazione',data:new Date().toISOString().slice(0,10),firmato:true,esito:ok?'ACCOLTA':'RIGETTATA'});
+    dualPec(d,'Esito contestazione — '+domId+' — '+(ok?'ACCOLTA':'RIGETTATA'));auditLog('Contestazione '+(ok?'ACCOLTA':'RIGETTATA')+' — '+domId);
+    closeModal();nfy(ok?'Contestazione ACCOLTA — riammessa':'Contestazione RIGETTATA');go('o_dom')})}
+
+// ═══ PROROGA AVVISO ═══
+function openProroga(avId){const a=AVVISI.find(x=>x.id===avId);if(!a)return;
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:500px" onclick="event.stopPropagation()"><div class="modal-h"><h3>📅 Proroga — ${a.id}</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">
+  <div style="margin-bottom:12px"><strong>${a.titolo}</strong><br>Scadenza: <strong>${a.chiusura}</strong></div>
+  ${a.proroghe?.length?`<div class="callout warn" style="font-size:12px">Gia prorogato ${a.proroghe.length}x</div>`:''}
+  <div class="fg"><label>Nuova data <span style="color:var(--danger)">*</span></label><input type="date" id="pror_data" min="${a.chiusura}"></div>
+  <div class="fg"><label>Motivazione <span style="color:var(--danger)">*</span></label><textarea id="pror_mot" rows="2"></textarea></div>
+  <div class="fg"><label>Determina</label><input type="text" id="pror_det"></div>
+  <button class="btn btn-p" onclick="confProroga('${avId}')">✅ Conferma</button></div></div></div>`}
+function confProroga(avId){const nd=$$('pror_data')?.value,mot=$$('pror_mot')?.value;if(!nd||!mot){nfy('Compilare','err');return}
+  const a=AVVISI.find(x=>x.id===avId);if(!a.proroghe)a.proroghe=[];
+  a.proroghe.push({precedente:a.chiusura,nuova:nd,motivazione:mot,determina:$$('pror_det')?.value||'',data:new Date().toISOString().slice(0,10)});
+  a.chiusura=nd;auditLog('Proroga '+avId+' → '+nd);closeModal();nfy('Prorogato al '+nd);go('o_cfg')}
+
+// ═══ TICKET SUPPORTO ═══
+function openTicket(){
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:540px" onclick="event.stopPropagation()"><div class="modal-h" style="background:var(--primary)"><h3>🎫 Supporto</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b">
+  <div class="fg"><label>Oggetto <span style="color:var(--danger)">*</span></label><input type="text" id="tk_ogg"></div>
+  <div class="fg"><label>Descrizione <span style="color:var(--danger)">*</span></label><textarea id="tk_desc" rows="4"></textarea></div>
+  <div class="fg"><label>📎 Allegato</label><input type="file" id="tk_file"></div>
+  <button class="btn btn-p" onclick="inviaTicket()">📤 Invia</button></div></div></div>`}
+function inviaTicket(){const o=$$('tk_ogg')?.value,d=$$('tk_desc')?.value;if(!o||!d){nfy('Compilare','err');return}
+  const tk='TK-'+Date.now().toString(36).toUpperCase();auditLog('Ticket '+tk+': '+o);
+  if(PEC_CONFIG.SERVER_URL)fetch(PEC_CONFIG.SERVER_URL+'/api/pec/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:'supporto@regione.molise.it',subject:'[MoliseAvvisi] '+tk+': '+o,body:'Utente: '+(CU?.nome||'')+'\n'+d})}).catch(()=>{});
+  closeModal();nfy('Ticket '+tk+' inviato!')}
+
+// ═══ GUIDA COMPILAZIONE ═══
+function openGuida(){
+  $$('modalBox').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:700px" onclick="event.stopPropagation()"><div class="modal-h" style="background:var(--primary)"><h3>📖 Guida alla compilazione</h3><button class="close" onclick="closeModal()">✕</button></div><div class="modal-b" style="font-size:14px;line-height:1.7">
+  <h3 style="color:var(--primary)">1. Preparazione</h3><p>Avere a portata: visura CCIAA, documento legale rappresentante, progetto, piano finanziario.</p>
+  <h3 style="color:var(--primary)">2. Campi obbligatori</h3><p>Tutti i campi con <span style="color:var(--danger)">*</span> sono obbligatori. La domanda non puo essere inviata senza.</p>
+  <h3 style="color:var(--primary)">3. Documenti</h3><p>Si raccomanda di caricare file firmati digitalmente (.p7m). Il sistema verifica la firma.</p>
+  <h3 style="color:var(--primary)">4. Salvataggio bozza</h3><p>La domanda si salva automaticamente. Puoi uscire e riprendere da dove hai lasciato.</p>
+  <h3 style="color:var(--primary)">5. Contestazioni (L.241/90)</h3><p>In caso di non ammissione puoi presentare osservazioni entro 10 giorni.</p>
+  <h3 style="color:var(--primary)">6. Supporto</h3><p>Clicca "🎫 Richiedi supporto" per aprire un ticket.</p>
+  </div></div></div>`}
 
 // ─── Visualizza documenti caricati dal richiedente ───
 function viewDocs(id){const d=DB.applications.find(x=>x.id===id);const docs=d.docs_caricati||{};
@@ -1011,6 +1146,19 @@ function viewDocs(id){const d=DB.applications.find(x=>x.id===id);const docs=d.do
     <div style="padding:12px;background:var(--success-bg);border-radius:var(--radius)"><strong>${rupN(d.rup_esecuzione.cf)}</strong>
     ${d.rup_esecuzione.determina?`<br><span style="font-size:13px">Det. nomina: <strong>${d.rup_esecuzione.determina.numero}</strong> del ${fD(d.rup_esecuzione.determina.data)}</span>`:''}
     </div>`}
+  // Contestazione L.241/90 (beneficiario può contestare se non ammissibile)
+  if(d.status==='non_ammissibile'&&!d.contestazione){
+    h+=`<h4 style="margin-top:16px;margin-bottom:8px">⚖️ Diritto di contestazione (L.241/90)</h4>
+    <div style="padding:12px;background:var(--warning-bg);border:1px solid var(--warning);border-radius:var(--radius)">
+      <p style="font-size:13px;margin-bottom:8px">Ai sensi degli artt. 7, 10 e 10-bis della L. 241/90, puoi presentare osservazioni motivate entro 10 giorni dalla comunicazione.</p>
+      <button class="btn btn-p btn-sm" onclick="closeModal();openContestazione('${d.id}')">⚖️ Presenta contestazione</button></div>`}
+  if(d.contestazione){h+=`<h4 style="margin-top:16px;margin-bottom:8px">⚖️ Contestazione</h4>
+    <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:#fafbfc">
+      <div style="font-size:13px"><strong>Presentata il ${fD(d.contestazione.data)}</strong></div>
+      <div style="font-size:12px;color:var(--text-sec);margin:4px 0">${d.contestazione.motivazione?.substring(0,150)}…</div>
+      ${d.contestazione.allegati?.length?`<div style="font-size:12px">Allegati: ${d.contestazione.allegati.join(', ')}</div>`:''}
+      <div style="margin-top:6px"><span class="badge ${d.contestazione.stato==='accolta'?'b-finanziata':d.contestazione.stato==='rigettata'?'b-non_ammissibile':'b-in_contestazione'}">${d.contestazione.stato==='accolta'?'Accolta':d.contestazione.stato==='rigettata'?'Rigettata':'In esame'}</span>
+      ${d.contestazione.risposta?`<div style="font-size:12px;margin-top:4px;color:var(--text-sec)">Risposta: ${d.contestazione.risposta}</div>`:''}</div></div>`}
   // Accettazione finanziamento
   if(d.accettazione?.firmata){h+=`<h4 style="margin-top:16px;margin-bottom:8px">✍ Accettazione finanziamento</h4>
     <div style="padding:12px;background:var(--success-bg);border-radius:var(--radius)"><strong style="color:var(--success)">✓ Firmata dal beneficiario</strong><br><span style="font-size:13px">${d.accettazione.doc} — ${fD(d.accettazione.data)}</span><br><button class="btn btn-ghost" onclick="nfy('Download: ${d.accettazione.doc}')" style="margin-top:4px">⬇ Scarica</button></div>`}
@@ -1580,7 +1728,7 @@ function pgOC(){if(CU?.ruolo!=='admin'){P().innerHTML='<div class="callout err">
   cfgCritCount=1;
   P().innerHTML=`<h2 style="margin-bottom:16px">⚙ Configuratore</h2>
   <div class="card"><div class="card-h">Avvisi</div><div class="card-b" style="overflow-x:auto"><table><thead><tr><th>ID</th><th>Titolo</th><th>Fondo</th><th>Ente</th><th>Stato</th><th>Dotazione</th><th>Azioni</th></tr></thead><tbody>
-  ${AVVISI.map(a=>`<tr><td><strong>${a.id}</strong></td><td>${a.titolo}</td><td><span class="badge b-${FN[a.fondo]?.cls}">${FN[a.fondo]?.l}</span></td><td style="font-size:12px">${enteN(a.ente_gestore)}</td><td>${a.stato}</td><td style="font-family:var(--mono)">${fE(a.dotazione)}</td><td><select onchange="if(this.value==='aperto'){richPubblica('${a.id}');this.value=''}else if(this.value){AVVISI.find(x=>x.id==='${a.id}').stato=this.value;nfy('Stato: '+this.value);go('o_cfg')}" style="font-size:12px"><option>Cambia</option><option value="bozza">Bozza</option><option value="aperto">Pubblica (richiede determina)</option><option value="chiuso">Chiudi</option></select></td></tr>`).join('')}
+  ${AVVISI.map(a=>`<tr><td><strong>${a.id}</strong></td><td>${a.titolo}</td><td><span class="badge b-${FN[a.fondo]?.cls}">${FN[a.fondo]?.l}</span></td><td style="font-size:12px">${enteN(a.ente_gestore)}</td><td>${a.stato}</td><td style="font-family:var(--mono)">${fE(a.dotazione)}</td><td><select onchange="if(this.value==='aperto'){richPubblica('${a.id}');this.value=''}else if(this.value){AVVISI.find(x=>x.id==='${a.id}').stato=this.value;nfy('Stato: '+this.value);go('o_cfg')}" style="font-size:12px"><option value="">— Stato —</option><option value="bozza">Bozza</option><option value="aperto">Pubblica (richiede determina)</option><option value="chiuso">Chiudi</option></select> <button class="btn btn-ghost" onclick="openProroga('${a.id}')" style="font-size:10px;padding:2px 6px" title="Proroga scadenza">📅</button></td></tr>`).join('')}
   </tbody></table></div></div>
 
   <div class="row" style="margin-bottom:16px">
